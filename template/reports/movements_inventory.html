@@ -1,0 +1,43 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Movimientos de inventario</h3>
+            <!-- <p class="text-muted m-b-30">Data table example</p> -->
+            <div class="table-responsive">
+                <table id="example23" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Código producto</th>
+                            <th>Cantidad inicial</th>
+                            <th>Cantidad agregada</th>
+                            <th>Cantidad Actual</th>
+                            <th>Precio actual</th>
+                            <th>IVA actual</th>
+                            <th>Fecha de modificación</th>
+                            <th>Empleado que modifico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	{% for i in data %}
+	                        <tr>
+	                            <td>{{i.code}}</td>
+                                <td>{{i.quanty_initial}}</td>
+	                            <td>{{i.quanty}}</td>
+                                <td>{{i.current_amount}}</td>
+	                            <td>{{i.price}}</td>
+	                            <td>{{i.tax}}</td>
+	                            <td>{{i.date}}</td>
+                                <td>{{i.empleoyee}}</td>
+	                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

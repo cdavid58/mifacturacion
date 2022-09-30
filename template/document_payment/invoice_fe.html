@@ -1,0 +1,184 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Factura Electrónia</h4> </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <a href="{% url 'List_Invoice' %}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Ver Facturas</a>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <h3><b>Factura Electrónica de venta</b> <span class="pull-right">#{{number_invoice}}</span></h3>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            <address>
+                                <h3>De</h3>
+                                <h3> &nbsp;<b class="text-danger">{{company.name}}</b></h3>
+                                <p class="text-muted m-l-5"> Dirección:&nbsp;&nbsp; {{company.address}},
+                                    <br/>Teléfono:&nbsp;&nbsp; {{company.phone}},
+                                    <br/>E-mail:&nbsp;&nbsp; {{company.email}}</p>
+                                <p class="m-t-30"><b>Forma de Pago : </b>{{pf.payment_form_id.name}}</p>
+                                {% if pf.payment_form_id.name != 'Contado' %}
+                                    <p class="m-t-5"><b>Fecha de vencimiento : </b>{{data_pf.payment_due_date}}</p>
+                                {% endif %}
+                            </address>
+                        </div>
+                        <div class="pull-right text-right">
+                            <address>
+                                <h3>Para</h3>
+                                <h4 class="font-bold">{{client.name}}</h4>
+                                <p class="text-muted m-l-30">{{client.address}},
+                                    <br/> {{client.phone}},
+                                    <br/> {{client.email}}</p>
+
+                                <p class="m-t-30"><b>Fecha de Generación :</b> <i class="fa fa-calendar"></i> {{date.fg}}</p>
+                                {% if pf.payment_form_id.name != 'Contado' %}
+                                    <p class="m-t-10"><b>Días de Vencimiento : </b>{{data_pf.duration_measure}}</p>
+                                {% endif %}
+                            </address>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive m-t-40">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        {% if date.state == "Procesado Correctamente." %}
+                                            <th>Nota Crédito</th>
+                                        {% endif %}
+                                        <th class="text-center">Código</th>
+                                        <th>Descripción</th>
+                                        <th class="text-right">Neto</th>
+                                        <th class="text-right">Cantidad</th>
+                                        <th class="text-right">Costo</th>
+                                        <th class="text-right">IVA</th>
+                                        <th class="text-right">VAL. IVA</th>
+                                        <th class="text-right">ICO</th>
+                                        <th class="text-right">Descuento</th>
+                                        <th class="text-right">Desc. Val.</th>
+                                        <th class="text-right">SubTotal Costo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pather">
+                                    {% for i in invoice %}
+                                        <tr>
+                                            {% if date.state == "Procesado Correctamente." %}
+                                                <td>
+                                                    <a class="btn btn-danger text-white" href="javascript:void(0);" onclick="
+                                                        var id = this.id
+                                                        alert(id)
+                                                        var filas = $('#pather').find('tr');
+                                                        var resultado = '';
+                                                        var subtotal = 0
+                                                            tax = 0
+                                                            n_row = 0
+
+                                                        for(i=0; i<filas.length; i++){
+                                                            n_row += 1
+                                                            var celdas = $(filas[i]).find('td');
+                                                            if($(celdas[0]).text() == id){
+                                                                subtotal += parseFloat($(celdas[4]).text().replace('$',''))
+                                                                tax += parseFloat($(celdas[5]).text().replace('$',''))
+                                                            }
+                                                        }
+                                                        creditnote('{{i.code}}','{{i.quanty}}','{{i.price}}','{{number_invoice}}')
+                                                        if(n_row > 1){
+                                                            $(this).closest('tr').remove();
+
+                                                            var id = this.id
+                                                            var filas = $('#pather').find('tr');
+                                                            var resultado = '';
+                                                            var subtotal = 0
+                                                                tax = 0
+                                                                n_row = 0
+
+                                                            for(i=0; i<filas.length; i++){
+                                                                n_row += 1
+                                                                var celdas = $(filas[i]).find('td');
+                                                                if($(celdas[0]).text() == id){
+                                                                    subtotal += parseFloat($(celdas[4]).text().replace('$',''))
+                                                                    tax += parseFloat($(celdas[5]).text().replace('$',''))
+                                                                }
+                                                            }
+                                                            console.log(n_row)
+                                                            $('#Subtotal').text('Sub - Total: $'+subtotal)
+                                                            $('#Tax').text('Impuesto : $'+tax)
+                                                            var total_product = subtotal + tax
+                                                            $('#Total').text('$'+total_product)
+                                                        }
+                                                        else{
+                                                            $('#notecredit_product').click()
+                                                        }
+                                                        ">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </td>
+                                            {% endif %}
+                                            <td class="text-center">{{i.code}}</td>
+                                            <td>{{i.description}}</td>
+                                            <td class="text-right">${{i.neto}}</td>
+                                            <td class="text-right">{{i.quanty}}</td>
+                                            <td class="text-right">${{i.price}}</td>
+                                            <td class="text-right">{{i.tax_prduct}}%</td>
+                                            <td class="text-right">${{i.tax_value}}</td>
+                                            <td class="text-right">${{i.ICO}}</td>
+                                            <td class="text-right">{{i.discount}}%</td>
+                                            <td class="text-right">${{i.discount_value}}</td>
+                                            <td class="text-right">${{i.subtotal}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right m-t-30 text-right">
+                            <p id="Subtotal">Neto: ${{neto}}</p>
+                            <p id="Subtotal">SubTotal: ${{subtotal}}</p>
+                            <p id="Subtotal">Impuesto: ${{tax}}</p>
+                            <p id="Subtotal">Descuento: ${{discount}}</p>
+                            <p id="Tax">ICO: ${{ico}} </p>
+                            <hr>
+                            <h3><b>Total :</b><span id="Total"> ${{totals}}</span></h3> </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="text-right">
+                            <!-- <button class="btn btn-danger" type="submit"> Proceed to payment </button> -->
+                            <!-- <button onClick="javascript:window.print();" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .row -->
+    <!-- /.row -->
+</div>
+
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive notecredit_product" id="notecredit_product"> 
+    </div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+<script>
+    function creditnote(pk,quanty,price,consecutive){
+        $.ajax({
+            url: '{% url "NoteCreditProduct" %}',
+            data:{'pk':pk,'quanty':quanty,'price':price,'consecutive':consecutive},
+            success:function(data){           
+                return true;
+            }
+        })
+    }
+</script>
+{% endblock %}

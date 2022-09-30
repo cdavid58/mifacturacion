@@ -1,0 +1,397 @@
+{% extends '../base.html' %}
+{%  load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-8 col-md-4 col-sm-12 col-12">
+            <h4 class="page-title">Compras&nbsp;&nbsp;&nbsp;
+                <small>Existencia: <span id="utility">0</span></small>&nbsp;&nbsp;&nbsp;
+                <small>Stock Reserva: <span id="stock_r">0</span></small>&nbsp;&nbsp;&nbsp;
+                <small>Total de la Compra: <span id="win_totals">$0</span></small>
+            </h4> 
+        </div>
+        <div class="col-lg-4 col-md-8 col-sm-12 col-12"> 
+            <a href="{% url 'List_Inventory' %}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline waves-effect waves-light">Inventario</a>
+            <button href="{% url 'List_Inventory' %}" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline waves-effect waves-light">Agregar Proveedor</button>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title">Agregar Inventario</h3>
+                <form class="form-material form-horizontal">
+                    <div class="row">
+                        <div class="form-group col-md-6 col-12">
+                            <label class="col-md-12" for="example-text">Factura</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="number" id="invoice" name="code" placeholder="Número de Factura" autofocus class="form-control code">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                            <label class="col-md-12" for="paydate">Proveedor</span>
+                            </label>
+                            <div class="col-md-12">
+                                <select id="category" name="tax" class="form-control">
+                                    <option>PROVEEDOR GENERAL</option>
+                                    {% for i in supplier %}
+                                        {% if i.name != 'PROVEEDOR GENERAL' %}
+                                            <option>{{i.name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4 col-12">
+                            <label class="col-md-12" for="example-text">Código de Producto</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="number" id="code_pruduct" min="0" max="1000" name="cod" placeholder="Precio de venta del producto o articulo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8 col-12">
+                            <label class="col-md-12" for="example-text">Producto</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="text" id="name_product" name="product" placeholder="Precio de venta del producto o articulo" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5 col-12">
+                            <label class="col-md-12" for="example-text">Precio de venta</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="number" id="price" name="price" placeholder="Precio de venta del producto o articulo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3 col-12">
+                            <label class="col-md-12" for="paydate">IVA</span>
+                            </label>
+                            <div class="col-md-12">
+                                <select id="tax" name="tax" class="form-control">
+                                    <option>0</option>
+                                    <option>5</option>
+                                    <option>19</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4 col-12">
+                            <div class="form-group col-12">
+                                <label class="col-md-12" for="example-text">Costo del producto</span>
+                                </label>
+                                <div class="col-md-md-12">
+                                    <input type="number" id="cost" name="cost" disabled placeholder="Costo del producto o articulo" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-12">
+                            <label class="col-md-12" for="example-text">Cantidad a reservar</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="number" id="quanty" name="quanty" placeholder="Código del producto o articulo" value="0" class="form-control" required>
+                            </div>
+                        </div><div ></div>
+                        <div class="form-group col-md-4 col-12">
+                            <label class="col-md-12" for="example-text">Descuento</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="number" id="discount" name="disocunt" placeholder="Código del producto o articulo" value="0" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4 col-12">
+                            <label class="col-md-12" for="example-text">Impuesto al consumo</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="text" id="ico" name="ico" placeholder="Código del producto o articulo" value="0" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <button class="btn btn-info waves-effect waves-light m-r-10 add_product">Agregar Producto</button>
+                        <button class="btn btn-inverse waves-effect waves-light re">Limpiar Campos</button>
+                        <button type="reset" class="btn btn-inverse waves-effect waves-light" hidden id="format">Limpiar Campos</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="white-box">
+                                <!-- <p class="text-muted m-b-30">Data table example</p> -->
+                                <div class="table-responsive">
+                                    <table id='example-table' class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Descripción</th>
+                                                <th>Costo</th>
+                                                <th>Cantidad</th>
+                                                <th>Iva</th>
+                                                <th>Iva Val</th>
+                                                <th>Desc.</th>
+                                                <th>Desc. Val</th>
+                                                <th>ICO</th>
+                                                <th>SubTotal de costo</th>
+                                                <th>Neto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="pather">
+                                                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-info btn-block waves-effect waves-light m-r-10 order">Guardar Compra</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel1">Agregar Proveedor</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Nombre del proveedor</label>
+                        <input type="text" class="form-control name_cat" id="recipient-name1">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Dirección</label>
+                        <input type="text" name="address" class="form-control address_cat" id="recipient-name1">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Teléfono</label>
+                        <input type="text" class="form-control phone_cat" id="recipient-name1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger close" data-dismiss="modal">Cerrar</button> -->
+                <button type="button" class="btn btn-primary send_cat">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive shopping_success" id="shopping_success"> 
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'jquery.tabletojson.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+
+        let cost;
+        let invoice;
+        let total_invoice = 0;
+        $("#invoice").keyup(function(){
+            invoice = $("#invoice").val()
+        })
+        $("#invoice").focus()
+
+        $(".send_cat").click(function(){
+            if($("#invoice").val() != "" || $("#invoice").val().length > 0){
+                let name = $(".name_cat").val()
+                $.ajax({
+                    url:'{% url "AddSupplier" %}',
+                    data:{'name':name,'address':$(".address_cat").val(),'phone':$(".phone_cat").val()},
+                    success:function(data){
+                        $(".close").click()
+                        $("#category").append(`
+                            <option>${name}</option>
+                        `)
+                        $(".name_cat").val("")
+                    }
+                })
+            }
+        })
+
+        $("#code_pruduct").keyup(function(e){
+            e.preventDefault();
+            $.ajax({
+                data:{'code':$("#code_pruduct").val(),'invoice_number':$("#invoice").val(),'supplier':$("#category").val()},
+                success:function(data){
+                    console.log(data)
+                    var obj = JSON.parse(data)
+                    $("#price").val(obj[0]['price'])
+                    $("#name_product").val(obj[0]['name'])
+                    $("#utility").text(obj[0]['quanty'])
+                    CaltulateCost()
+                    cost = $("#cost").val()
+                    $("#price").focus()
+                }
+            })
+            
+        })
+        let iva;
+        function valiva(value){
+            var price = parseFloat($("#price").val())
+            iva = (price - ( price / ( 1 + ( parseFloat(value) / 100 ) ) )).toFixed(2)
+            return (price - ( price / ( 1 + ( parseFloat(value) / 100 ) ) )).toFixed(2)
+        }
+
+        function discount(){
+            var price = parseFloat($("#price").val())
+            var cost = price / ( 1 + ( parseFloat($("#tax").val()) / 100 ) )
+            return (cost - ( cost * ( parseFloat($("#discount").val() ) / 100 ) )).toFixed(2)
+        }
+
+        function SubTotal(a,b){
+            if(a != 0 && b != 0){
+                return a * b
+            }
+            return 0
+        }
+
+        function Neto_Invoice(a,b){
+            sum = a + b
+            return sum * parseFloat($("#quanty").val())
+        }
+
+        $(".add_product").click(function(e){
+            e.preventDefault();
+            if($("#quanty").val() != "" && $("#quanty").val() != 0){
+                let cost = parseFloat($("#price").val())
+                let tax = parseFloat($("#quanty").val())
+                console.log(tax+' CANTIDADA')
+                let result = parseFloat(cost) * parseFloat(tax)
+                console.log(result+' PRECIO')
+                
+                $("#pather").append(`
+                    <tr>
+                        <td>${$("#code_pruduct").val()}</td>
+                        <td>${$("#name_product").val()}</td>
+                        <td>${$("#cost").val()}</td>
+                        <td>${$("#quanty").val()}</td>
+                        <td>${$("#tax").val()}</td>
+                        <td>${valiva( $("#tax").val() )}</td>
+                        <td>${$("#discount").val()}</td>
+                        <td>${discount()}</td>
+                        <td>${$("#ico").val()}</td>
+                        <td>${SubTotal( parseFloat($("#cost").val()), parseFloat($("#quanty").val()) )}</td>
+                        <td>${result}</td>
+                    </tr>
+                `)
+                total_invoice += result
+                $("#win_totals").text('$'+total_invoice)
+                $(".re").click()
+            }
+        })
+
+        function CaltulateCost(quanty){
+            if($("#price").val() != ""){
+                var price = parseFloat($("#price").val())
+                console.log($("#tax").val()+' TAX')
+                var value_tax = 1 + (parseFloat($("#tax").val()) / 100)
+                var cost = price / value_tax
+                $("#cost").val(cost.toFixed(2))
+            }
+            else{
+                $("#cost").val("No hay")
+            }            
+        }
+
+        $("#price").keyup(function(e){
+            e.preventDefault();
+            var value = 0
+            if($("#quanty").val() != ""){
+                value = $("#quanty").val()
+            }
+            CaltulateCost(value)
+        })
+        $("#tax").change(function(e){
+            e.preventDefault();
+            var value = 0
+            if($("#quanty").val() != ""){
+                value = $("#quanty").val()
+            }
+            
+            CaltulateCost(value)
+
+        })
+
+        $("#quanty").keyup(function(e){
+            e.preventDefault();
+            var value = 0
+            if($("#quanty").val() != ""){
+                value = $("#quanty").val()
+                $("#stock_r").text(value)
+            }
+            else{
+             $("#stock_r").text(0)   
+            }
+            CaltulateCost(value)  
+        })
+        $("#discount").keyup(function(e){
+        })
+
+        $(".re").click(function(e){
+            e.preventDefault()
+            $("#cost").val("0")
+            $("#price").val("0")
+            $("#quanty").val("0")
+            $("#code_pruduct").val("")
+            $("#code_pruduct").focus()
+            $("#discount").val("0")
+            $("#ico").val("0")
+            $("#name_product").val("")
+        })
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function time_sleep() {
+            for (let i = 0; i < 2; i++) {
+                console.log(`Waiting ${i} seconds...`);
+                await sleep(i * 2300);
+            }
+            location.reload(true)
+            // $("#format").click()
+            // $("#invoice").focus()
+            // $("#utility").text('0')
+            // $("#stock_r").text('0')
+            // $("#win_totals").text('$0')
+        }
+
+        $(".order").click(function(e){
+            e.preventDefault()
+            var table = $('#example-table').tableToJSON();
+            $.ajax({
+                url: '{% url "Save_Shopping" %}',
+                data: JSON.stringify(table),
+                success:function(data){
+                    console.log(data)
+                    $("#shopping_success").click()
+                    time_sleep()
+                }
+            })
+        })
+
+
+
+
+
+    })
+</script>
+{% endblock %}

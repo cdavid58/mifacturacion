@@ -1,0 +1,215 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid" style="padding-top: 15px;">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 col-xs-12">
+            
+            <!-- ROW ONE -->
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Empleados</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="icon-people text-info"></i></li>
+                            <li class="text-right"><span class="counter" style="font-size:20px;">{{empleoyee}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Facturas Elec.</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="ti-file text-purple"></i></li>
+                            <li class="text-right"><span class="counter" style="font-size:20px;">{{invoice}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Facturas POS</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="ti-ticket text-danger"></i></li>
+                            <li class="text-right"><span class="counter" style="font-size:20px;">{{pos}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Vendido Hoy</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="ti-wallet text-success"></i></li>
+                            <li class="text-right"><span class="counter" style="font-size:20px;">${{totals}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- ROW TWO -->
+            
+
+            <!-- END ROWS -->
+        </div>
+        <div class="col-lg-6 col-sm-12 col-xs-12">
+            <div class="collapse m-t-15" id="pgr2" aria-expanded="true"> <pre class="line-numbers language-javascript m-t-0"><code><b>Use below code & put in column</b><br/>
+                <div class="carousel-inner">
+                    <div class="active item" style="height: 100%; width: 100%;">
+                      <div class="overlaybg">
+                        <img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg"/>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="overlaybg" style="height: 100%; width: 100%;">
+                        <img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg"/></div>
+                    </div>
+                </div></code></pre> </div>
+            <div class="news-slide m-b-15">
+                <div class="vcarousel slide">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="active item">
+                            <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://www.siigo.com/wp-content/uploads/2019/09/Factura-electronica-plazos-y-obligados-facebook.jpg" /></div>
+                        </div>
+                        <div class="item">
+                            <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg" /></div>
+                        </div>
+                        <div class="item">
+                            <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="white-box">
+                <div class="r-icon-stats">
+                    <i class="ti-user bg-megna"></i>
+                    <div class="bodystate">
+                        <h4>{{clients_M}}</h4>
+                        <span class="text-muted">Clientes en Mora<br>Factura Elec.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-3 col-sm-6">
+            <div class="white-box">
+                <div class="r-icon-stats">
+                    <i class="ti-shopping-cart bg-info"></i>
+                    <div class="bodystate">
+                        <h4>342</h4>
+                        <span class="text-muted">Clientes en Mora<br>Factura POS.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="white-box">
+                <div class="r-icon-stats">
+                    <i class="ti-wallet bg-success"></i>
+                    <div class="bodystate">
+                        <h4>13</h4>
+                        <span class="text-muted">Today's Ops.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="white-box">
+                <div class="r-icon-stats">
+                    <i class="ti-wallet bg-inverse"></i>
+                    <div class="bodystate">
+                        <h4>$34650</h4>
+                        <span class="text-muted">Hospital Earning</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expires"> 
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expired"> 
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expires"> 
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expired"> 
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        let setCookie = (name, value, days) => {
+          let expires = "";
+          if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        };
+
+        let getCookie = name => {
+          let nameEQ = name + "=";
+          let ca = document.cookie.split(";");
+          for (var i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+          }
+          return null;
+        };
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function time_sleep() {
+            for (let i = 0; i < 3; i++) {
+                console.log(`Waiting ${i} seconds...`);
+                await sleep(i * 1000);
+            }
+            $(location).attr('href','{% url "Login" %}');
+        }
+
+        const closedApp = getCookie("closedApp");
+        if (closedApp === null) {
+            // setCookie("closedApp", "true", 1);
+            if("{{error_resolutions}}" == "True"){
+                $('#resolution_expires').click();
+                time_sleep()
+            }
+            if("{{error_resolutions}}" === "expired"){
+                $('#resolution_expired').click();
+                time_sleep()
+            }
+
+            if("{{error_certificate}}" == "True"){
+                $('#certificate_expires').click();
+                time_sleep()
+            }
+            if("{{error_certificate}}" == "expired"){
+                $('#certificate_expired').click();
+                time_sleep()
+            }
+        }       
+    })
+</script>
+{% endblock %}

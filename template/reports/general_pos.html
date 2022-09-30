@@ -1,0 +1,83 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Reportes General</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Facturación POS</h3>
+                <p class="text-muted m-b-30">Exportar datos a Copia, CSV, Excel, PDF e Imprimir</p>
+                <div class="table-responsive">
+                    <table id="example23" class="display nowrap" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="1%" style="text-align: center;">N° de Factura</th>
+                                <th width="8%" style="text-align: center;">Base</th>
+                                <th width="4%" style="text-align: center;">IVA 19%</th>
+                                <th width="4%" style="text-align: center;">IVA 5%</th>
+                                <th width="4%" style="text-align: center;">IVA 0%</th>
+                                <th width="8%" style="text-align: center;">SubTotal</th>
+                                <th width="10%" style="text-align: center;">Total</th>
+                                <th width="3%" style="text-align: center;">Fecha</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	{% for i in data %}
+	                            <tr>
+	                                <td>{{i.number}}</td>
+	                                <td style="text-align: right;">{{i.cost}}</td>
+	                                <td style="text-align: right;">{{i.tax_19}}</td>
+                                    <td style="text-align: right;">{{i.tax_5}}</td>
+                                    <td style="text-align: right;">{{i.tax_0}}</td>
+	                                <td style="text-align: right;">{{i.subtotal}}</td>
+	                                <td style="text-align: right;">{{i.totals}}</td>
+	                                <td>{{i.date}}</td>
+	                            </tr>
+	                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <div class="white-box col-auto">
+                <div class="table-responsive">
+                    <table id="example23" class="display nowrap" cellspacing="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td><p class="text-muted" style="font-size: 18px;">{{totals}}</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="white-box col-5 ml-auto">
+                <div class="table-responsive">
+                    <table id="example23" class="display nowrap" cellspacing="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td><h4>Total:</h4></td>
+                                <td style="text-align:right;"><h4><span class="total">{{total_report}}</span></h4></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+{% endblock %}

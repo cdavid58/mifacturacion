@@ -1,0 +1,350 @@
+{% extends '../base.html' %}
+{% block content %}
+<style>
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+	  -webkit-appearance: none; 
+	  margin: 0; 
+	}
+	input[type=number] { -moz-appearance:textfield; }
+</style>
+
+
+	<div class="container-fluid">
+		<form id="form" action="{% url 'Save_Payroll' %}" method="post">{% csrf_token %}
+			<div class="row">
+		        <div class="col-sm-12">
+		            <div class="white-box">
+		                <div class="row">
+		                    <div class="col-md-4 col-12">
+		                        <h5>Seleccione Empleado</h5>
+		                        <select id="employee" name="employee" class="form-control select2 client">
+		                        	<option>Seleccione Empleado</option>
+		                            {% for i in data %}
+		                                <option value="{{i.pk}}">{{i.name}}</option>
+		                            {% endfor %}
+		                        </select>
+		                    </div>
+							<div class="col-md-2 col-12">
+							    <h5>Sueldo Mensual</h5>
+							    <input class="form-control stock" name="salary" id="salary" value="0" type="text" disabled id="example-date-input">
+							</div>
+							<div class="col-md-2 col-12">
+		                        <h5>Aux. de Trans.</h5>
+		                        <input class="form-control stock" name="at" value="0" type="text" disabled id="at">
+		                    </div>
+		                    <div class="col-md-2 col-12">
+		                        <h5>Días Laborados.</h5>
+		                        <input class="form-control stock" name="days_worked" value="0" id="days_worked" type="number" id="example-date-input">
+		                    </div>
+		                    <div class="col-md-2 col-12">
+		                        <h5>Total Cobrado.</h5>
+		                        <input class="form-control stock" name="total_c" value="0" disabled id="total_cobrado" type="number" id="example-date-input">
+		                    </div>
+
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		        <div class="col-sm-12">
+		            <div class="white-box">
+		                <div class="row">
+		                    <div class="col-md-1 col-12">
+							    <h5 title="Hora Extra Diurno">H.E.D</h5>
+							    <input class="form-control stock" id="hed" value="0" type="number">
+							</div>
+							<div class="col-md-1 col-12">
+							    <h5 title="Hora Extra Nocturno">H.E.N</h5>
+							    <input class="form-control stock" id="hen" value="0" type="number">
+							</div>
+							<div class="col-md-1 col-12">
+							    <h5 title="Hora Extra Recargo Nocturno">H.E.R.N</h5>
+							    <input class="form-control stock" id="hern" value="0" type="number">
+							</div>
+							<div class="col-md-1 col-12">
+		                        <h5 title="Hora Extra Diurno Dominical y Festivo">H.E.D.D.F</h5>
+		                        <input class="form-control stock" value="0"  type="number" id="heddf">
+		                    </div>
+		                    <div class="col-md-1 col-12">
+		                        <h5 title="Hora Extra Recargo Diurno Dominical y Festivo">H.E.R.D.D.F</h5>
+		                        <input class="form-control stock" value="0" id="days_worked" type="number" id="herddf">
+		                    </div>
+
+		                    <div class="col-md-1 col-12">
+							    <h5 title="Hora Extra Nocturno Dominical y Festivo">H.E.N.D.D.F</h5>
+							    <input class="form-control stock" id="henddf" value="0" type="number">
+							</div>
+							<div class="col-md-1 col-12">
+							    <h5 title="Hora Extra Recargo Nocturno Dominical y Festivo">H.E.R.N.D.D.F</h5>
+							    <input class="form-control stock" id="hernddf" value="0" type="number">
+							</div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		        <div class="col-sm-12">
+		            <div class="white-box">
+		                <div class="row">
+		                	<div class="col-sm-5 col-12">
+			                    <div class="col-md-4 col-12">
+								    <h5 title="Vacaciones">Desde</h5>
+								    <input class="form-control stock" id="vacation_from" type="date">
+								</div>
+								<div class="col-md-4 col-12">
+								    <h5 title="Vacaciones">Hasta</h5>
+								    <input class="form-control stock" id="vacation_to" type="date">
+								</div>
+								<div class="col-md-4 col-12">
+								    <h5 title="VACACIONES">Total Pagado</h5>
+								    <input class="form-control stock" id="asd" value="0" type="text">
+								</div>
+							</div>
+							<div class="col-md-1 col-12">
+								
+							</div>
+							<div class="col-sm-5 col-12">
+								 <div class="col-md-4 col-12">
+								    <h5 title="Vacaciones compensadas">Desde</h5>
+								    <input class="form-control stock" id="vacation_from" type="date">
+								</div>
+								<div class="col-md-4 col-12">
+								    <h5 title="Vacaciones compensadas">Hasta</h5>
+								    <input class="form-control stock" id="vacation_to" type="date">
+								</div>
+								<div class="col-md-4 col-12">
+								    <h5 title="VACACIONES COMPENSADAS">Total Pagado</h5>
+								    <input class="form-control stock" id="asda" value="0" type="text">
+								</div>
+							</div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		        <div class="col-sm-12">
+		            <div class="white-box">
+		                <div class="row">
+		                	<div class="col-md-2 col-12">
+							    <h5 title="VACACIONES COMPENSADAS">Activar Primas</h5>
+							    <input type="checkbox" id="checkbox0">
+							</div>
+							<div class="col-md-2 col-12 pago_prima" style="display: none;">
+							    <h5 title="VACACIONES COMPENSADAS">Total Pagado</h5>
+							    <input class="form-control stock" id="primar_value" value="0" type="text">
+							</div>
+							<div class="col-md-2 col-12 mes_prima" style="display: none;">
+							    <h5 title="VACACIONES COMPENSADAS">Meses Pagado</h5>
+							    <input class="form-control stock" id="payment_mes" value="0" type="text">
+							</div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		    	<button class="send">Enviar</button>
+		    </div>
+		</form>
+	</div>
+
+
+{% endblock %}
+{% block script %}
+	<script>
+
+		// $(".send").click(function(e){
+		// 	e.preventDefault()
+		// 	$.ajax({
+		// 		url: '{% url "Save_Payroll" %}',
+		// 		data:{'form':$("#form").serialize()},
+		// 		success:function(data){
+
+		// 		}
+		// 	})
+		// })
+		p = []
+		let salary
+		let at = 0
+		let total_charged = 0
+		let value_hour = 0
+		$("#employee").change(function(){
+			$.ajax({
+				data:{'pk':$("#employee").val()},
+				success:function(data){
+					var obj = JSON.parse(data)
+					p.push(obj)
+					$("#salary").val(obj['salary'])
+					$("#total_cobrado").val(obj['salary'])
+					salary = parseFloat($("#salary").val())
+					at = 117171
+					$("#at").val(at.toFixed(2))
+					$("#days_worked").val("")
+					$("#days_worked").focus()
+					value_hour = salary / 240
+					total_charged = salary + at
+				}
+			})
+		})
+
+		
+		var hed = 0
+			hen = 0
+			hern = 0
+			heddf = 0
+			herddf = 0
+			henddf = 0
+			hernddf = 0
+
+		$("#days_worked").keyup(function(e){
+			var keycode = e.keyCode || e.which;
+			if(keycode == 13){
+				$("#hed").focus()
+				$("#hed").val("")
+			}
+			if($("#days_worked").val() != ""){
+				var days = parseFloat($("#days_worked").val())
+				var data = (salary / 30) * days
+				$("#salary").val(data.toFixed(2))
+				var _data = (at / 30)*days
+				$("#at").val(_data.toFixed(2))
+				var result = data + _data
+				$("#total_cobrado").val(result)
+			}
+			else
+			{
+				$("#salary").val(0)
+				$("#at").val(0)
+			}
+		})
+
+		$("#hed").change(function(){
+			var value = parseFloat($("#hed").val())
+			if(value != 0){
+				total_charged -= hed
+				hed = (value_hour * 1.25 ) * value
+				total_charged += hed
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= hed
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#hen").change(function(){
+			var value = parseFloat($("#hen").val())
+			if(value != 0){
+				total_charged -= hen
+				hen = (value_hour * 1.75 ) * value
+				total_charged += hen
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= hen
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#hern").change(function(){
+			var value = parseFloat($("#hern").val())
+			if(value != 0){
+				total_charged -= hern
+				hern = (value_hour * 1.75 ) * value
+				total_charged += hern
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= hern
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#heddf").change(function(){
+			var value = parseFloat($("#heddf").val())
+			if(value != 0){
+				total_charged -= heddf
+				heddf = (value_hour * 1 ) * value
+				total_charged += heddf
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= heddf
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#herddf").change(function(){
+			var value = parseFloat($("#herddf").val())
+			if(value != 0){
+				total_charged -= herddf
+				herddf = (value_hour * 1.75 ) * value
+				total_charged += herddf
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= herddf
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#henddf").change(function(){
+			var value = parseFloat($("#henddf").val())
+			if(value != 0){
+				total_charged -= henddf
+				henddf = (value_hour * 1.5 ) * value
+				total_charged += henddf
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= henddf
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#hernddf").change(function(){
+			var value = parseFloat($("#hernddf").val())
+			if(value != 0){
+				total_charged -= hernddf
+				hernddf = (value_hour * 1.5 ) * value
+				total_charged += hernddf
+				$("#total_cobrado").val(total_charged.toFixed(2))
+			}
+			else{
+				total_charged -= hernddf
+				$("#total_cobrado").val(total_charged.toFixed(2))	
+			}
+		})
+
+		$("#checkbox0").change(function(){
+			if($("#checkbox0").prop('checked')){
+				$("#pago_prima").css('display','block')
+				$("#mes_prima").css('display','block')
+				var value = $("#primas").val()
+				var hiring_date = p[0]['hiring_date'].split('-')
+				var _date = hiring_date[1]+'/'+hiring_date[2]+'/'+hiring_date[0]
+				var date = new Date()
+				let formatted_date = date.getMonth() + "/" + (date.getDate() + 1) + "/" + date.getFullYear()
+				var days = formatoFecha(_date,formatted_date)
+				var totals_ = ((salary + at) / 2 )
+				var div = (totals_ / 180 ) * days
+				$("#primar_value").val(div.toFixed(2))
+				$("#payment_mes").val(Math.round(180 / days))
+			}
+		})
+
+		function formatoFecha(date_start,date_actuality) {
+			var day1 = new Date(date_start)
+			var day2 = new Date(date_actuality)
+			var difference= Math.abs(day2-day1)
+			days = difference/(1000 * 3600 * 24)
+			return (days)
+		}
+
+	</script>
+
+{% endblock %}

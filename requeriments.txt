@@ -1,0 +1,10 @@
+django
+requests
+djangorestframework
+jinja2
+pdfkit
+pandas
+openpyxl
+gtts
+playsound
+gunicorn

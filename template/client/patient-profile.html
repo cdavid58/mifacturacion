@@ -1,0 +1,155 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-8 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Perfil del Cliente &nbsp;&nbsp;&nbsp;Total FE:&nbsp;${{total_fe}}<!--&nbsp;&nbsp;&nbsp;Total POS:&nbsp;${{total_fe}}--></h4> </div>
+        <div class="col-lg-4 col-sm-8 col-md-8 col-xs-12"> 
+            {% if request.session.type_empleoyee == "Administrador" %}
+                <a href="{% url 'List_Client' %}" class="btn btn-primary pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Todos los Clientes</a>
+                <a href="{% url 'Delete_Client' i.pk %}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Eliminar</a>
+                <a href="{% url 'Edit_Client' i.pk %}" class="btn btn-success pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Editar</a>
+            {% endif %}
+        </div>
+    </div>
+    <!-- /.row -->
+    <!-- .row -->
+    <div class="row">
+        <div class="col-md-4 col-xs-12 col-12">
+            <div class="white-box">
+                <div class="user-bg"> <img width="100%" alt="user" src="{{i.img}}"> </div>
+                <div class="user-btm-box">
+                    <!-- .row -->
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>Nombre</strong>
+                            <p>{{i.name}}</p>
+                        </div>
+                        <div class="col-md-6"><strong>Registro Mercantil</strong>
+                            <p>{{i.merchant_registration}}</p>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <hr>
+                    <!-- .row -->
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-6 b-r"><strong>E-mail</strong>
+                            <p>{{i.email}}</p>
+                        </div>
+                        <div class="col-md-6"><strong>Teléfono</strong>
+                            <p>{{i.phone}}</p>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                    <hr>
+                    <!-- .row -->
+                    <div class="row text-center m-t-10">
+                        <div class="col-md-12"><strong>Dirección</strong>
+                            <p>{{i.address}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="white-box">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h4>Productos más comprados</h4>
+                    </div>
+                </div>
+                <div class="row text-center m-t-10">
+                    <div class="col-md-12">
+                        <p><strong>Harina PAN</strong></p>
+                        <p><strong>Arroz Orquidea</strong></strong></p>
+                        <p><strong>Cuajada</strong></strong></p>
+                        <p><strong>Azucar</strong></strong></p>
+                        <p><strong>Café Nestle 38 UNDS</strong></strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xs-12 col-12">
+            <div class="white-box">
+                <h4 class="m-t-30">Historial de Compra Facturación Electrónica</h4>
+                <hr>
+                <div class="steamline">
+                    {% for j in data %}
+                    <div class="sl-item" id="Hola">
+                        <div class="sl-left"> <img src="{{i.img}}" alt="user" class="img-circle" /> </div>
+                        <div class="sl-right">
+                            <div class="m-l-40"><a href="#" class="text-info">{{j.name}}</a>&nbsp;&nbsp;<span class="sl-date">{{j.date}}</span>
+                                <p>
+                                    <b>Factura N°:</b>&nbsp;&nbsp;{{j.number}}<br>
+                                    <b>Total:</b>&nbsp;&nbsp;{{j.total}}<br>
+                                </p>
+                                
+                            </div>
+                            <div>
+                                <p>
+                                  <a class="btn btn-primary product" id="{{j.number}}" type="button" data-toggle="collapse" data-target="#collapseExample{{j.number}}" aria-expanded="false" aria-controls="collapseExample">
+                                    Ver productos
+                                  </a>
+                                </p>
+                                <div class="collapse" id="collapseExample{{j.number}}">
+                                  <div class="card card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="13%" style="text-align: center;">Codigo</th>
+                                                    <th width="30%" style="text-align: center;">Descripción</th>
+                                                    <th width="20%" style="text-align: center;">Cantidad</th>
+                                                    <th width="20%" style="text-align: center;">Base</th>
+                                                    <th width="20%" style="text-align: center;">IVA</th>
+                                                    <th width="30%" style="text-align: center;">SubTotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="phater{{j.number}}">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    
+    $("a[type='button']").on('click',function(){
+        var id = this.id
+        $.ajax({
+            data:{'number':id},
+            success:function(data){
+                var obj = JSON.parse(data)
+                console.log(obj)
+                for(var i = 0; i < obj.length;i++){
+                    $("#phater"+id).empty()
+                    $("#phater"+id).append(`
+                            <tr>
+                                <td>${obj[i]['code']}</td>
+                                <td>${obj[i]['description']}</td>
+                                <td style="text-align:right;">${obj[i]['quanty']}</td>
+                                <td style="text-align:right;">${obj[i]['base']}</td>
+                                <td style="text-align:right;">${obj[i]['tax']}</td>
+                                <td style="text-align:right;">${obj[i]['SubTotal']}</td>
+                            </tr>
+                    `)
+                }
+                $("#phater"+id).focus()
+
+            }
+        })
+    })
+</script>
+{% endblock %}

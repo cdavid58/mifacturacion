@@ -1,0 +1,155 @@
+{% load static %}
+<nav class="navbar navbar-default navbar-static-top m-b-0">
+    <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+        <div class="top-left-part"><a class="logo" href="index.html"><b><img src="{% static 'plugins/images/eliteadmin-logo.png' %}" alt="home" /></b><span class="hidden-xs"><strong>elite</strong></span></a></div>
+        <ul class="nav navbar-top-links navbar-left hidden-xs">
+            <!-- <li>
+                <a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a>
+            </li>
+            <li>
+                <form role="search" class="app-search hidden-xs">
+                    <input type="text" placeholder="Search..." class="form-control">
+                    <a href=""><i class="fa fa-search"></i></a>
+                </form>
+            </li> -->
+        </ul>
+        <ul class="nav navbar-top-links navbar-right pull-right">
+            <li class="dropdown" id="notifications_system">
+                <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" id="btn_notifications" href="#"><i class="icon-envelope"></i>
+                    <div class="notify" style="display:none;"><span class="heartbit"></span><span class="point"></span></div>
+                </a>
+                <ul class="dropdown-menu mailbox animated bounceInDown notification_invoice_">
+                    <li>
+                        <div class="drop-title">No tiene Mensajes nuevos</div>
+                    </li>
+                    <li>
+                        <a class="text-center" href="{% url 'List_Notifications' %}"> <strong>Ver Todas las notificiaciones</strong> <i class="fa fa-angle-right"></i> </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{request.session.logo_Company}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{request.session.name_company|truncatechars:12}}</b> </a>
+                <ul class="dropdown-menu dropdown-user animated flipInY">
+                    <li><a href="{% url 'Profile_Empleoyee' request.session.empleoyee_pk %}"><i class="ti-user"></i> Mi Perfil</a></li>
+                    <!-- <li><a href="javascript:void(0)"><i class="ti-email"></i>  Inbox</a></li>
+                    <li><a href="javascript:void(0)"><i class="ti-settings"></i>  Account Setting</a></li> -->
+                    <li><a href="{% url 'LogOut' %}"><i class="fa fa-power-off"></i>  Salir</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-header -->
+    <!-- /.navbar-top-links -->
+    <!-- /.navbar-static-side -->
+</nav>
+
+<audio hidden class="audio" id="audio" controls>
+    <source src="{% static 'company/9918401/message.mp3' %}" type="audio/mp3">
+</audio>
+<script src="{% static 'plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script>
+    let last = 0;
+    var stop = 10000
+    let exist = false
+    
+    setInterval(function(){
+
+        $(".notification_invoice_").empty()
+        $.ajax({
+            url:"{% url 'notofitications' %}",
+            success:function(data){
+                let _data = JSON.parse(data)
+                if(_data.length){
+                    $(".notify").css('display','block')
+                    let n = _data.length
+                    let x = 0
+                    for(i; x < _data.length; x++){
+                        console.log(x)
+                        var message;
+                        if(_data[x]['acceptance']){
+                            message = "La factura "+_data[x]['number']+' fue aceptada'
+                        }
+                        else{
+                            message = "La factura "+_data[x]['number']+' fue rechazada'
+                        }
+                        $(".notification_invoice_").append(`
+                            <li>
+                                <div class="message-center">
+                                    <a href="{% url 'List_Notifications' %}">
+                                        <div class="mail-contnet">
+                                            <h5></h5> 
+                                            <span class="mail-desc">${message}</span> 
+                                            <span class="time">${_data[x]['time']}</span> 
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        `)
+                    }
+                    $(".notification_invoice_").append(`
+                        <li>
+                            <a class="text-center" href="{% url 'List_Notifications' %}"> <strong>Ver Todas las notificiaciones</strong> <i class="fa fa-angle-right"></i> </a>
+                        </li>
+                        <li>
+                            <a class="text-center" href="javascript:void(0);" onclick="Read();"> <strong>Marcar como leidos</strong> <i class="fa fa-angle-right"></i> </a>
+                        </li>
+                    `)
+                    nit = 9918401
+                    if(parseFloat(last) < parseFloat(_data[n - 1]['pk'])){
+                        nit = '{{request.session.nit_company}}'
+                        url = "http://localhost:8000/static/company/"+nit+"/message.mp3"
+                        sound(url)
+                        last = _data[n - 1]['pk']
+                    }
+
+                    console.log(last)
+                    console.log(_data[n -1]['pk'])
+                    
+                   
+                }else{
+                    $(".notification_invoice_").append(`
+                            <li>
+                                <div class="drop-title">No tiene Mensajes nuevos</div>
+                            </li>
+                            <li>
+                                <a class="text-center" href="{% url 'List_Notifications' %}"> <strong>Ver Todas las notificiaciones</strong> <i class="fa fa-angle-right"></i> </a>
+                            </li>
+                        `)
+                }
+                
+            }
+        })
+    },stop)
+
+    function Read(){
+
+        $.ajax({
+            url:"{% url 'Read' %}",
+            success:function(data){
+                $(".notification_invoice_").empty()
+                $(".notification_invoice_").append(`
+                    <li>
+                        <div class="drop-title">No tiene Mensajes nuevos</div>
+                    </li>
+                    <li>
+                        <a class="text-center" href="{% url 'List_Notifications' %}"> <strong>Ver Todas las notificiaciones</strong> <i class="fa fa-angle-right"></i> </a>
+                    </li>
+                `)
+                $(".notify").css('display','none')
+            }
+        })
+    }
+
+    setInterval(function(){
+        
+        if('{{request.session.payroll}}' == '1'){
+            Push.create('ÉXITO!!!', {
+                body: 'La nomina fue enviada con éxito',
+                icon: 'https://s3.amazonaws.com/images.pymas.com.co/_600xAUTO_crop_center-center/icono-computador-pagos-nomina-electronica.png',
+                timeout: 5000
+            });
+        }
+    },5000)
+</script>

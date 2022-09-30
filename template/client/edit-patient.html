@@ -1,0 +1,149 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-12 col-lg-3">
+            <h4 class="page-title">Edit Patient</h4> 
+        </div>
+        <div class="col-12 col-lg-9">
+            <a href="{% url 'List_Client' %}" class="btn btn-success pull-right m-l-20 btn-rounded btn-outline waves-effect waves-light">Todos los clientes</a>
+            <a href="{% url 'Profile_Client' i.pk %}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline waves-effect waves-light">Ver Perfil</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title">Información Básica</h3>
+                <form id="information_B" method="post" class="form-material form-horizontal">{% csrf_token %}
+                    <div class="form-group">
+                        <label class="col-md-12" for="example-text">Nombre</span>
+                        </label>
+                        <div class="col-md-12">
+                            <input type="text" id="example-text" name="name" class="form-control" placeholder="enter your name" value="{{i.name}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="bdate">Dirección</span>
+                        </label>
+                        <div class="col-md-12">
+                            <input type="text" id="bdate" name="address" class="form-control mydatepicker" placeholder="enter your birth date" value="{{i.address}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 col-12">
+                            <div class="form-group">
+                                <label class="col-sm-5">Municipio</label>
+                                <div class="col-sm-12">
+                                    <select name="municipality" class="form-control">
+                                        <option value="{{i.municipality.pk}}">{{i.municipality.name}}</option>
+                                        {% for j in muni %}
+                                            {% if i.municipality.name != j.name %}
+                                                <option value="{{j.pk}}">{{j.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-12">
+                            <div class="form-group">
+                                <label class="col-sm-5">Documento</label>
+                                <div class="col-sm-12">
+                                    <select name="documentI" class="form-control">
+                                        <option value="{{i.municipality.pk}}">{{i.document.name}}</option>
+                                        {% for j in td %}
+                                            {% if i.document.name != j.name %}
+                                                <option value="{{j.pk}}">{{j.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-12">
+                            <div class="form-group">
+                                <label class="col-sm-5">Regimen</label>
+                                <div class="col-sm-12">
+                                    <select name="regime" class="form-control">
+                                        <option value="{{i.municipality.pk}}">{{i.regimen.name}}</option>
+                                        {% for j in tr %}
+                                            {% if i.regimen.name != j.name %}
+                                                <option value="{{j.pk}}">{{j.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-12">
+                            <div class="form-group">
+                                <label class="col-sm-5">Organización</label>
+                                <div class="col-sm-12">
+                                    <select name="organization" class="form-control">
+                                        <option value="{{i.municipality.pk}}">{{i.organization.name}}</option>
+                                        {% for j in to %}
+                                            {% if i.organization.name != j.name %}
+                                                <option value="{{j.pk}}">{{j.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="bdate">E-mail</span>
+                        </label>
+                        <div class="col-md-12">
+                            <input type="email" id="bdate" name="email" class="form-control mydatepicker" value="{{i.email}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12" for="bdate">Teléfono</span>
+                        </label>
+                        <div class="col-md-12">
+                            <input type="number" id="bdate" name="phone" class="form-control mydatepicker" value="{{i.phone}}">
+                        </div>
+                    </div>
+                    
+
+                    <a href="javascript:void(0);" id="information_basic" class="btn btn-info waves-effect waves-light m-r-10">Actualizar</a>
+                    <!-- <button type="reset" class="btn btn-inverse waves-effect waves-light">Cancelar</button> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive model_img" id="update_success"> 
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+
+<script>
+    $(document).ready(function(){
+            
+        $("#information_basic").click(function(){
+            $.ajax({
+                data:$("#information_B").serialize(),
+                success:function(data){
+                    $("#update_success").click()
+                },
+                error:function(x,status){
+                    console.log(status)
+                },
+                complete:function(x,status){
+                    console.log(x)
+                    console.log(status+' complete')
+                }
+            })    
+        })
+        
+    })
+</script>
+
+
+{% endblock %}

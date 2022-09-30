@@ -1,0 +1,159 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Facturación Electrónica</h3>
+            <!-- <p class="text-muted m-b-30">Data table example</p> -->
+            <div class="table-responsive">
+                <table id="myTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Numero</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Cliente</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	{% for i in invoice %}
+
+	                        <tr>
+	                            <td style="width: 2%;">{{i.number}}</td>
+	                            <td  style="width: 2%;">{{i.date}}</td>
+	                            <td  style="width: 30%;">{{i.client}}</td>
+	                            <td  style="width: 0%;">{{i.client}}</td>
+	                            <td  style="width: 30%;" id="{{i.pk}}" class="state">{{i.state}}</td>
+	                            <td style="width: 30%;">
+                                    {% if i.state == "Sin enviar a la DIAN" %}
+                                        <a class="btn btn-primary text-white" style="margin-right:5px;" href="{% url 'Electronic_Invoice_Docment' i.pk %}"> 
+                                                Ver
+                                        </a> 
+                                        <a class="btn btn-success text-white" style="margin-right:5px;" href="{% url 'Send_Dian' i.pk %}"> 
+                                            DIAN
+                                        </a> 
+                                        <a class="btn btn-danger text-white" href="javascript:void(0);" onclick="
+                                            $.ajax({
+                                                data:{'pk':'{{i.pk}}'}
+                                            })
+                                            $(this).closest('tr').remove();
+                                         ">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                        <!--  <a class="btn btn-info text-white" href="{% url 'Credit_Notes' i.pk %}"> 
+                                            NC
+                                        </a> -->
+                                    {% elif i.state == 'Se aplico nota crédito' %}
+                                        <a class="btn btn-primary text-white" style="margin-right:5px;" href="{% url 'Electronic_Invoice_Docment' i.pk %}"> 
+                                            Ver
+                                        </a> 
+                                       <a class="btn btn-info text-white" style="margin-right:5px;" href="{% url 'GetPDF' i.pk %}" target="_blank"> 
+                                            PDF
+                                        </a>
+                                        <a class="btn btn-success text-white" href="javascript:void(0)"> 
+                                            Verificar
+                                        </a>
+                                    {% elif i.state == 'Procesado Correctamente.' %}
+                                        <a class="btn btn-primary text-white" style="margin-right:5px;" href="{% url 'Electronic_Invoice_Docment' i.pk %}"> 
+                                            Ver
+                                        </a> 
+                                        <a class="btn btn-success text-white" style="margin-right:5px;" href="{% url 'Send_Dian' i.pk %}"> 
+                                            Verificar
+                                        </a>
+                                        <a class="btn btn-info text-white" style="margin-right:5px;" href="{% url 'GetPDF' i.pk %}" target="_blank"> 
+                                            PDF
+                                        </a>
+                                        <a class="btn btn-info text-white" href="{% url 'Credit_Notes' i.pk %}"> 
+                                            NC
+                                        </a>
+                                        {% if i.client != "CLIENTE GENERAL" %}
+                                            <a style="margin-left: 10px;" type="button" class="btn btn-warning text-white email" href="javascript:void(0);" id="{{i.pk}}"> 
+                                                E-mail
+                                            </a>
+                                        {% endif %}
+                                    {% elif i.state == 'Validación contiene errores en campos mandatorios' %}
+                                        <a class="btn btn-primary text-white" style="margin-right:5px;" href="{% url 'Electronic_Invoice_Docment' i.pk %}"> 
+                                            Ver
+                                        </a> 
+                                        <a class="btn btn-success text-white" style="margin-right:5px;" href="{% url 'Send_Dian' i.pk %}"> 
+                                            DIAN
+                                        </a>
+                                        <a class="btn btn-danger text-white" style="margin-right:5px;" href="javascript:void(0);" onclick="
+                                            $.ajax({
+                                                data:{'pk':'{{i.pk}}'}
+                                            })
+                                            $(this).closest('tr').remove();
+                                         ">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-primary text-white" style="margin-right:5px;" href="{% url 'Electronic_Invoice_Docment' i.pk %}"> 
+                                                Ver
+                                        </a> 
+                                        <a class="btn btn-success text-white" style="margin-right:5px;" href="{% url 'Send_Dian' i.pk %}"> 
+                                            DIAN
+                                        </a> 
+                                        <a class="btn btn-danger text-white" href="javascript:void(0);" onclick="
+                                            $.ajax({
+                                                data:{'pk':'{{i.pk}}'}
+                                            })
+                                            $(this).closest('tr').remove();
+                                         ">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+	                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive send_pdf" id="send_pdf"> 
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive sending_pdf" id="sending_pdf_error"> 
+    </div>
+</div>
+<div class="col-lg-4 col-xs-12" hidden>
+    <div class="white-box">
+        <img src="" alt="alert" class="img-responsive sending_pdf" id="sending_pdf"> 
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(".email").on('click',function(){
+            var id = this.id
+            $("#"+id).text("Enviando Email...")
+            $.ajax({
+                url:"{% url 'Send_Email' %}",
+                data:{'value':id},
+                success:function(data){
+                    $("#"+id).text("Procesado Correctamente.")
+                    $("#send_pdf").click()
+                },
+                error : function(xhr, status,data) {
+                    $("#send_pdf_error").click()
+                }
+            })
+            $("#sending_pdf").click()
+        })    
+    })
+
+
+    
+</script>
+    
+
+{% endblock %}

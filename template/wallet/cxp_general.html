@@ -1,0 +1,86 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Cuenta por Pagar</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Cuenta Pagadas</h3>
+                <p class="text-muted m-b-30">Exportar datos a Copia, CSV, Excel, PDF e Imprimir</p>
+                <div class="table-responsive">
+                    <table id="example23" class="display nowrap table-danger" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">N° de Factura</th>
+                                <th style="text-align: center;">Base</th>
+                                <th style="text-align: center;">IVA</th>
+                                <th style="text-align: center;">Total</th>
+                                <th id="active" style="text-align: center;">Fecha de compra</th>
+                                <th style="text-align: center;">Estatus</th>
+                                <th style="text-align: center;">Proveedor</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	{% for i in data %}
+	                            <tr>
+	                                <td>{{i.number_invoice}}</td>
+	                                <td style="text-align: right;">{{i.base}}</td>
+	                                <td style="text-align: right;">{{i.val_iva}}</td>
+	                                <td style="text-align: right;">{{i.total}}</td>
+	                                <td style="text-align: center;">{{i.date}}</td>
+                                    <td style="text-align: center;">{% if i.paid %}Cancelado{% else %}<span id="p{{i.pk}}">Sin Cancelar</span>{% endif %}</td>
+                                    <td style="text-align: center;">{{i.supplier}}</td>
+	                            </tr>
+	                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row justify-content-center">
+        <div class="col-sm-4 ml-auto">
+            <div class="white-box">
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <td><h4>TOTAL PAGADO:&nbsp;</h4></td>
+                            <td><h4>${{total}}</h4></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+
+<script>
+    $(".paid").click(function(){
+        let id = this.id
+        $.ajax({
+            data:{'pk':id},
+            success:function(data){
+                $("#p"+id).text("Cancelado")
+                $("#"+id).prop('disabled', true)
+                
+
+            }
+        })
+    })
+    $("#active").click()
+    $("#active").click()
+</script>
+
+{% endblock %}

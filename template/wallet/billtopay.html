@@ -1,0 +1,119 @@
+{% extends '../base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Cuenta por Pagar</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">{% if data %}Cuenta por Pagar{% endif %}</h3>
+                <p class="text-muted m-b-30">Exportar datos a Copia, CSV, Excel, PDF e Imprimir</p>
+                <div class="table-responsive">
+                    <table id="example23" class="display nowrap table-danger" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">N° de Factura</th>
+                                <th style="text-align: center;">Base</th>
+                                <th style="text-align: center;">IVA</th>
+                                <th style="text-align: center;">Total</th>
+                                <th id="active" style="text-align: center;">Fecha de compra</th>
+                                <th style="text-align: center;">Usado</th>
+                                <th style="text-align: center;">Estatus</th>
+                                <th style="text-align: center;">Proveedor</th>
+                                <th style="text-align: center;">Accion</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	{% for i in data %}
+	                            <tr>
+	                                <td>{{i.number_invoice}}</td>
+	                                <td style="text-align: right;">{{i.base}}</td>
+	                                <td style="text-align: right;">{{i.val_iva}}</td>
+	                                <td style="text-align: right;">{{i.total}}</td>
+	                                <td style="text-align: center;">{{i.date}}</td>                                    
+                                    <td style="text-align: center;">
+                                        {% if i.used %}
+                                            SI
+                                        {% else %}
+                                            NO
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align: center;">{% if i.paid %}Cancelado{% else %}<span id="p{{i.pk}}">Sin Cancelar</span>{% endif %}</td>
+                                    <td style="text-align: center;">{{i.supplier}}</td>
+                                    <td style="text-align: center;">
+                                        {% if paid %}
+                                            <button disabled class="btn btn-primary paid">Pagado</button>
+                                        {% else %}
+                                            <button id="{{i.pk}}" class="btn btn-primary paid">Pagado</button>
+                                        {% endif %}
+                                    </td>
+	                            </tr>
+	                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="white-box col-lg-4 col-md-5 col-sm-9 col-12 ml-auto ">
+            <div class="table-responsive">
+                <table class="table table-striped col-2">
+                    <tr>
+                        <td style="text-align: right;"><h4>TOTAL A PAGAR:</h4></td>
+                        <td style="text-align: right;"><h4>$<span id="total">{{total}}</span></h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+
+<script>
+    var total = parseFloat('{{totals}}')
+    $(".paid").click(function(){
+        let id = this.id
+        $.ajax({
+            data:{'pk':id},
+            success:function(data){
+                $("#p"+id).text("Cancelado")
+                $("#"+id).prop('disabled', true)
+                
+                total -= data
+                $("#total").text(formatNumber(total))
+
+            }
+        })
+    })
+    function formatNumber(num) {
+        if (!num || num == 'NaN') return '0';
+        if (num == 'Infinity') return '&#x221e;';
+        num = num.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + '.' + num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '0') + num + ',' + cents);
+    }
+    $("#active").click()
+    $("#active").click()
+</script>
+
+{% endblock %}
