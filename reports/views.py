@@ -45,7 +45,7 @@ def Close_The_Box(request):
 def Invoices(request):
 	company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))
 	import sqlite3
-	c = sqlite3.connect('db.sqlite3')
+	c = sqlite3.connect('/home/sistemadministrativo/mifacturacion/db.sqlite3')
 	cur = c.cursor()
 	cur.execute("select distinct number from invoice_Invoice where company_id = "+str(company.pk))
 
@@ -151,7 +151,7 @@ def Invoices_pos(request):
 
 
 def Report_Inventory(request):
-	
+
 	try:
 		company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))
 		inventory = Inventory.objects.filter(company = company)
@@ -172,7 +172,7 @@ def Report_Inventory(request):
 
 	return render(request,'reports/inventory.html',{'data':_data})
 
-	
+
 
 
 
@@ -227,8 +227,6 @@ def Record_Inventory(request):
 		]
 	except Exception as e:
 		_data= []
-	
-
 	return render(request,'reports/movements_inventory.html',{'data':_data})
 
 
@@ -236,7 +234,7 @@ def Record_Inventory(request):
 def Report_General_FE(request):
 	company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))
 	import sqlite3
-	c = sqlite3.connect('db.sqlite3')
+	c = sqlite3.connect('/home/sistemadministrativo/mifacturacion/db.sqlite3')
 	cur = c.cursor()
 	cur.execute("select distinct number from invoice_Invoice where company_id = "+str(company.pk))
 
@@ -285,7 +283,7 @@ def Report_General_FE(request):
 def Report_General_POS(request):
 	company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))
 	import sqlite3
-	c = sqlite3.connect('db.sqlite3')
+	c = sqlite3.connect('/home/sistemadministrativo/mifacturacion/db.sqlite3')
 	cur = c.cursor()
 	cur.execute("select distinct number from pos_POS where company_id = "+str(company.pk))
 

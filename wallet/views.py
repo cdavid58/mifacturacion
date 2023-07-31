@@ -23,7 +23,7 @@ def Wallet_Elec(request):
 		if t.decodificar(i.invoice.number) not in number:
 			number.append(t.decodificar(str(i.invoice.number)))
 	_totals = []
-	for j in number:	
+	for j in number:
 		_i = Invoice.objects.filter(number = t.codificar(str(j)),company = c(request))
 		total = 0
 		for x in _i:
@@ -72,7 +72,7 @@ def Wallet_Elec(request):
 		for i in wallet:
 			if t.decodificar(i.invoice.number) not in number:
 				number.append(t.decodificar(str(i.invoice.number)))
-		for j in number:		
+		for j in number:
 			_i = Invoice.objects.filter(number = t.codificar(str(j)),company = c(request))
 			total = 0
 			for x in _i:
@@ -116,7 +116,7 @@ def Report_Wallet_Elec(request):
 def Electronic_Invoice_Docment_Wallet(request,pk):
 	invoice= Invoice.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),type = "FE",number = t.codificar(str(pk)))
 	_invoice = Invoice.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),type = "FE",number = t.codificar(str(pk))).last()
-	total = 0 
+	total = 0
 	subtotal = 0
 	tax = 0
 	for i in invoice:
@@ -191,7 +191,7 @@ def Wallet_Elec_POS(request):
 			number.append(t.decodificar(str(i.pos.number)))
 	_totals = []
 	print(wallet)
-	for j in number:	
+	for j in number:
 		_i = POS.objects.filter(number = t.codificar(str(j)),company = c(request))
 		total = 0
 		for x in _i:
@@ -240,7 +240,7 @@ def Wallet_Elec_POS(request):
 		for i in wallet:
 			if t.decodificar(i.pos.number) not in number:
 				number.append(t.decodificar(str(i.pos.number)))
-		for j in number:		
+		for j in number:
 			_i = POS.objects.filter(number = t.codificar(str(j)),company = c(request))
 			for x in _i:
 				totals += x.Totals()
@@ -262,22 +262,22 @@ def Bill_To_Pay(request):
 	_data = []
 	total = 0
 	for i in si:
-		if t.decodificar(str(i.supplier.name)) != "PROVEEDOR GENERAL":
-			_data.append(
-				{
-					'pk':i.pk,
-					'number_invoice':t.decodificar(str(i.number_invoice)),
-					'base': Thousands_Separator(i.Base()),
-					'val_iva':Thousands_Separator(i.Tax_Value()),
-					'total':Thousands_Separator(round(i.Total())),
-					'date':i.date,
-					'supplier':t.decodificar(str(i.supplier.name)),
-					'used':i.used,
-					'paid':i.paid
-				}
-				
-			)
-			total += i.Total()
+		_data.append(
+			{
+				'pk':i.pk,
+				'number_invoice':t.decodificar(str(i.number_invoice)),
+				'base': Thousands_Separator(i.Base()),
+				'val_iva':Thousands_Separator(i.Tax_Value()),
+				'total':Thousands_Separator(round(i.Total())),
+				'date':i.date,
+				'supplier':t.decodificar(str(i.supplier.name)),
+				'used':i.used,
+				'paid':i.paid,
+				'quanty':t.decodificar(str(i.quanty))
+			}
+
+		)
+		total += i.Total()
 	print(_data)
 	if request.is_ajax():
 		_si = Shopping_Inventory.objects.get(pk = request.GET.get('pk'))
@@ -295,22 +295,22 @@ def CXP_General(request):
 	total = 0
 	less = 0
 	for i in si:
-		if t.decodificar(str(i.supplier.name)) != "PROVEEDOR GENERAL":
-			_data.append(
-				{
-					'pk':i.pk,
-					'number_invoice':t.decodificar(str(i.number_invoice)),
-					'base': Thousands_Separator(i.Base()),
-					'val_iva':Thousands_Separator(i.Tax_Value()),
-					'total':Thousands_Separator(round(i.Total())),
-					'date':i.date,
-					'supplier':t.decodificar(str(i.supplier.name)),
-					'used':i.used,
-					'paid':i.paid
-				}
-				
-			)
-			total += i.Total()
+		_data.append(
+			{
+				'pk':i.pk,
+				'number_invoice':t.decodificar(str(i.number_invoice)),
+				'base': Thousands_Separator(i.Base() / float(t.decodificar(str(i.quanty)))),
+				'val_iva':Thousands_Separator(i.Tax_Value() / float(t.decodificar(str(i.quanty)))),
+				'total':Thousands_Separator(round(i.Total(),2)),
+				'date':i.date,
+				'supplier':t.decodificar(str(i.supplier.name)),
+				'used':i.used,
+				'paid':i.paid,
+				'quanty':t.decodificar(str(i.quanty))
+			}
+
+		)
+		total += i.Total()
 	print(_data)
 	if request.is_ajax():
 		_si = Shopping_Inventory.objects.get(pk = request.GET.get('pk'))

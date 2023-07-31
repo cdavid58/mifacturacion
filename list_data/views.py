@@ -20,7 +20,7 @@ def Electronic_Invoice_Docment(request,pk):
 	request.session['number_invoice'] = pk
 	invoice= Invoice.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),type = "FE",number = t.codificar(str(pk)))
 	_invoice = Invoice.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),type = "FE",number = t.codificar(str(pk))).last()
-	total = 0 
+	total = 0
 	subtotal = 0
 	tax = 0
 	discount = 0
@@ -32,7 +32,7 @@ def Electronic_Invoice_Docment(request,pk):
 		subtotal += round(float(i.Base_Product_WithOut_Discount()))
 		discount += round(float(t.decodificar(str(i.discount))))
 		neto += round(float(t.decodificar(str(Inventory.objects.get(code = i.code).price))))
-		ico += round(float(t.decodificar(str(i.ipo))) * float(t.decodificar(str(i.quanty)))) 
+		ico += round(float(t.decodificar(str(i.ipo))) * float(t.decodificar(str(i.quanty))))
 
 	data = [
 		{
@@ -86,12 +86,12 @@ def Electronic_Invoice_Docment(request,pk):
 def Electronic_Invoice_Docment_POS(request,pk):
 	invoice= POS.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),number = t.codificar(str(pk)))
 	_invoice = POS.objects.filter(company = Company.objects.get(documentIdentification = t.codificar(str(request.session['nit_company']))),number = t.codificar(str(pk))).last()
-	total = 0 
+	total = 0
 	subtotal = 0
 	tax = 0
 	for i in invoice:
 		tax += round(i.Tax_Value(),2)
-		total += round(float(i.Totals()),2)
+		total += round(float(i.Totals()) * float(t.decodificar(str(i.quanty))),2)
 		subtotal += round(float(i.Base_Product_WithOut_Discount()),2)
 	data = [
 		{

@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-        <div class="top-left-part"><a class="logo" href="index.html"><b><img src="{% static 'plugins/images/eliteadmin-logo.png' %}" alt="home" /></b><span class="hidden-xs"><strong>elite</strong></span></a></div>
+        <div class="top-left-part"><a class="logo" href="index.html"><b><img src="{% static 'plugins/images/eliteadmin-logo.png' %}" alt="home" /></b><span class="hidden-xs"><strong>{{request.session.name_company|truncatechars:12}}</strong></span></a></div>
         <ul class="nav navbar-top-links navbar-left hidden-xs">
             <!-- <li>
                 <a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a>
@@ -46,14 +46,14 @@
 </nav>
 
 <audio hidden class="audio" id="audio" controls>
-    <source src="{% static 'company/9918401/message.mp3' %}" type="audio/mp3">
+    <source src="{% static 'company/2/message.mp3' %}" type="audio/mp3">
 </audio>
 <script src="{% static 'plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
 <script>
     let last = 0;
     var stop = 10000
     let exist = false
-    
+
     setInterval(function(){
 
         $(".notification_invoice_").empty()
@@ -79,9 +79,9 @@
                                 <div class="message-center">
                                     <a href="{% url 'List_Notifications' %}">
                                         <div class="mail-contnet">
-                                            <h5></h5> 
-                                            <span class="mail-desc">${message}</span> 
-                                            <span class="time">${_data[x]['time']}</span> 
+                                            <h5></h5>
+                                            <span class="mail-desc">${message}</span>
+                                            <span class="time">${_data[x]['time']}</span>
                                         </div>
                                     </a>
                                 </div>
@@ -99,15 +99,15 @@
                     nit = 9918401
                     if(parseFloat(last) < parseFloat(_data[n - 1]['pk'])){
                         nit = '{{request.session.nit_company}}'
-                        url = "http://localhost:8000/static/company/"+nit+"/message.mp3"
+                        url = "https://sistemadministrativo.pythonanywhere.com/static/company/2/message.mp3"
                         sound(url)
                         last = _data[n - 1]['pk']
                     }
 
                     console.log(last)
                     console.log(_data[n -1]['pk'])
-                    
-                   
+
+
                 }else{
                     $(".notification_invoice_").append(`
                             <li>
@@ -118,7 +118,7 @@
                             </li>
                         `)
                 }
-                
+
             }
         })
     },stop)
@@ -143,7 +143,7 @@
     }
 
     setInterval(function(){
-        
+
         if('{{request.session.payroll}}' == '1'){
             Push.create('ÉXITO!!!', {
                 body: 'La nomina fue enviada con éxito',

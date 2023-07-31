@@ -31,11 +31,11 @@ def List_Client(request):
 
 def Profile_Client(request,pk):
 	company = Company.objects.get(documentIdentification = t.codificar(str((request.session['nit_company']))))
-	con = sqlite3.connect('db.sqlite3')
+	con = sqlite3.connect('/home/sistemadministrativo/mifacturacion/db.sqlite3')
 	cursor = con.cursor()
 	cursor.execute("select DISTINCT number from invoice_invoice where client_id="+str(pk)+" and company_id="+str(company.pk))
 	_data = []
-	
+
 	if request.is_ajax():
 		invoice = Invoice.objects.filter(number = t.codificar(str(request.GET.get('number'))))
 		_product = [
@@ -50,7 +50,7 @@ def Profile_Client(request,pk):
 			for x in invoice
 		]
 		return HttpResponse(json.dumps(_product))
-	total_fe = 0 
+	total_fe = 0
 	for i in cursor.fetchall():
 		invoice = Invoice.objects.filter(number = i[0])
 		total = 0
@@ -151,7 +151,7 @@ def Edit_Client(request,pk):
 			'regimen':client.type_regime,
 			'municipality':client.municipality
 		}
-	
+
 	to = Type_Organization.objects.all()
 	tr = Type_Regime.objects.all()
 	muni = Municipality.objects.all().order_by('name')

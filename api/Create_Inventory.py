@@ -23,7 +23,7 @@ class CreateInventory:
 					company = Company.objects.get(documentIdentification = t.codificar(str(self.data['company']))),
 					discount = t.codificar(str(self.data['discount'])),
 					ico = t.codificar(str(self.data['ico'])),
-					supplier = Supplier.objects.get(name = t.codificar(str(self.data['supplier'])))
+    					supplier = Supplier.objects.get(name = t.codificar(str(self.data['supplier'])))
 				).save()
 				return "Product registered successfully"
 			return self.Validate()[1]

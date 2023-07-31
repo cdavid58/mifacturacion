@@ -20,19 +20,21 @@
                         <thead>
                             <tr>
                                 <th style="text-align: center;">N° de Factura</th>
+                                <th style="text-align: center;">Cantidad</th>
                                 <th style="text-align: center;">Base</th>
                                 <th style="text-align: center;">IVA</th>
                                 <th style="text-align: center;">Total</th>
                                 <th id="active" style="text-align: center;">Fecha de compra</th>
                                 <th style="text-align: center;">Estatus</th>
                                 <th style="text-align: center;">Proveedor</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
                         	{% for i in data %}
 	                            <tr>
 	                                <td>{{i.number_invoice}}</td>
+	                                <td style="text-align: right;">{{i.quanty}}</td>
 	                                <td style="text-align: right;">{{i.base}}</td>
 	                                <td style="text-align: right;">{{i.val_iva}}</td>
 	                                <td style="text-align: right;">{{i.total}}</td>
@@ -74,7 +76,7 @@
             success:function(data){
                 $("#p"+id).text("Cancelado")
                 $("#"+id).prop('disabled', true)
-                
+
 
             }
         })

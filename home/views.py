@@ -21,11 +21,11 @@ t = Translator()
 intentos = 1
 
 def LogOut(request):
-	path_dir_media = 'media/company/'+str(request.session['nit_company'])
-	path_dir_static = 'static/company/'+str(request.session['nit_company'])
+	path_dir_media = '/home/sistemadministrativo/mifacturacion/media/company/'+str(request.session['nit_company'])
+	path_dir_static = '/home/sistemadministrativo/mifacturacion/static/company/'+str(request.session['nit_company'])
 	if os.path.exists(path_dir_media):
 		shutil.rmtree(path_dir_media)
-		
+
 	if os.path.exists(path_dir_static):
 		shutil.rmtree(path_dir_static)
 	del request.session['empleoyee_pk']
@@ -45,7 +45,7 @@ def Login(request):
 	if 'block_license' in request.session:
 		block_license = True
 		del request.session['block_license']
-	
+
 	if request.method == 'POST':
 		try:
 			email = t.codificar(str(request.POST.get("user")))
@@ -105,7 +105,7 @@ def Validate_Pass(request,pwd):
 		return user
 	except Empleoyee.DoesNotExist:
 		return None
-	
+
 def Register(request):
 	if request.method == 'POST':
 		token = get_random_string(length=10)
@@ -117,10 +117,10 @@ def Register(request):
 		).save()
 		Request(name,phone,email,token)
 		return redirect('/')
-	return render(request,'home/register.html')	
+	return render(request,'home/register.html')
 
 def Vale_Requested(request,token):
-	
+
 	if request.method == 'POST':
 		file = request.FILES.getlist("file")
 		Files_Company(
@@ -159,8 +159,8 @@ def Index(request):
 	company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))
 	_invoice = Invoice.objects.filter(company = company,date = t.codificar(str(date.today()))).values_list('number','price','tax').distinct()
 
-	
-	con = sqlite3.connect("db.sqlite3")
+
+	con = sqlite3.connect("/home/sistemadministrativo/mifacturacion/db.sqlite3")
 	cursor = con.cursor()
 	cursor.execute("select DISTINCT number from invoice_invoice")
 	data = cursor.fetchall()
@@ -187,7 +187,7 @@ def Index(request):
 
 
 
-		
+
 
 	date_ = company.certificate_expiration_date
 	_date = date_.split('-')
@@ -195,13 +195,13 @@ def Index(request):
 	days = Count_Days(dates)
 	message_certificate = ""
 	error_certificate = False
-	
+
 	# if int(days) <= 15:
 	# 	message_certificate = "El certificado digital vence en "+str(days)
 	# 	error_certificate = True
 	# if int(days) <= 0:
 	# 	error_certificate = "expired"
-	
+
 
 
 	fc = License_Company.objects.get(company = company).due_date
@@ -266,7 +266,7 @@ def NewPW(request,pk,token):
 
 
 
-def notofitications(request):	
+def notofitications(request):
 	if request.is_ajax():
 		try:
 			company = Company.objects.get(documentIdentification =t.codificar(str(request.session['nit_company'])))

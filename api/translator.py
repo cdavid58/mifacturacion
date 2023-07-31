@@ -15,4 +15,4 @@ class Translator:
 
 t= Translator()
 
-print(t.decodificar('1100001,1100110,1101000,1100001,110001,110000,111001,110101'))
+print(t.codificar('adriana'))

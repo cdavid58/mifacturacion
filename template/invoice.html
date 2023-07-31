@@ -1,192 +1,411 @@
-</body>
-</html>
-<!DOCTYPE html>
+{% load static %}
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<style>
-		#invoice-POS{ 
-		  box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-		  padding:2mm;
-		  margin: 0 auto;
-		  width: 44mm;
-		  background: #FFF;
-		}
-  
-  
-	::selection {background: #f31544; color: #FFF;}
-	::moz-selection {background: #f31544; color: #FFF;}
-	h1{
-	  font-size: 1.5em;
-	  color: #222;
-	}
-	h2{font-size: .7em;}
-	h3{
-	  font-size: 1.2em;
-	  font-weight: 300;
-	  line-height: 2em;
-	}
-	p{
-	  font-size: .7em;
-	  color: #666;
-	  line-height: 1.2em;
-	}
-	 
-	#top, #mid,#bot{ /* Targets all id with 'col-' */
-	  border-bottom: 1px solid #EEE;
-	}
-
-	#top{min-height: 10px;}
-	#mid{min-height: 30px;} 
-	#bot{ min-height: 50px;}
-
-	#top .logo{
-	  /*float: left;*/
-		height: 60px;
-		width: 60px;
-		background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
-		background-size: 60px 60px;
-	}
-	.clientlogo{
-	  float: left;
-		height: 60px;
-		width: 60px;
-		background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
-		background-size: 60px 60px;
-	  border-radius: 50px;
-	}
-	.info{
-	  display: block;
-	  margin-left: 0;
-	}
-	.title{
-	  float: right;
-	}
-	.title p{text-align: right;} 
-	table{
-	  width: 100%;
-	  border-collapse: collapse;
-	}
-	td{
-	  //padding: 5px 0 5px 15px;
-	  //border: 1px solid #EEE
-	}
-	.tabletitle{
-	  //padding: 5px;
-	  font-size: .5em;
-	  background: #EEE;
-	}
-	.service{border-bottom: 1px solid #EEE;}
-	.tableitem {border: 1px solid #EEE;}
-	.item{width: 24mm;}
-	.itemtext{font-size: .5em;}
-
-	#legalcopy{
-	  margin-top: 5mm;
-	  text-align: center;
-	}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="generator" content="Aspose.Words for .NET 22.11.0" />
+	<script src="{% static 'plugins/bower_components/jquery/dist/jquery.min.js' %}"></script>
+	<style type="text/css">
+		body {
+			widows:0; orphans:0; font-family:'Arial MT'; font-size:11pt }p { margin:0pt }
+			.BodyText { margin:0pt; text-align:left; line-height:normal; widows:0; orphans:0; font-family:Arial; font-size:20.5pt; font-weight:bold }
+			.ListParagraph { margin:0pt; text-align:left; line-height:normal; widows:0; orphans:0; font-family:'Arial MT'; font-size:11pt }
+			.TableParagraph { margin:0pt; text-align:left; line-height:normal; widows:0; orphans:0; font-family:'Arial MT'; font-size:11pt }
+			.Title {
+				margin:8.25pt 0pt 0pt 5.8pt;
+				text-align:right;
+				line-height:normal;
+				widows:0;
+				orphans:0;
+				font-family:Arial;
+				font-size:20.5pt;
+				font-weight:bold
+			}
+			.TableNormal {  }
 	</style>
 </head>
 <body>
-	
-  <div id="invoice-POS">
-    
-    <center id="top">
-      <div class="logo"></div>
-      <div class="info"> 
-        <h2>{{c.name}}</h2>
-        <h6>Factura # <span>{{conse}}</span><br>
-        Teléfono: 3015700795<br>
-        Resolución: 18760000001</br>
-      	Rango de N° 1 - 5000    
-      	</h6>
-      </div><!--End Info-->
-    </center><!--End InvoiceTop-->
-    
-    <div id="mid">
-      <div class="info">
-        <h2>Info. Cliente</h2>
-        <h6> 
-        	  Nombre: {{customer.name}}<br>
-            Dirección: {{customer.address}}</br>
-            E-mail: {{customer.email}}</br>
-            Teléfono: {{customer.phone}}</br>
-        </h6>
-      </div>
-    </div><!--End Invoice Mid-->
-    
-    <div id="bot">
-			<div id="table">
-				<table>
-					<tr class="tabletitle">
-						<td class="item"><h2>Descripción</h2></td>
-						<td class="Hours"><h2>Cant.</h2></td>
-            <td class="Hours"><h2>Precio</h2></td>
-						<td class="Rate"><h2>Subtotal</h2></td>
-					</tr>
+	<div>
 
-					<tr class="service">
-						<td class="tableitem"><p class="itemtext">Communication</p></td>
-						<td class="tableitem"><p class="itemtext">5</p></td>
-						<td class="tableitem"><p class="itemtext">8</p></td>                
-						<td class="tableitem"><p class="itemtext">$375.00</p></td>
-					</tr>
 
-					<tr class="service">
-						<td class="tableitem"><p class="itemtext">Asset Gathering</p></td>
-						<td class="tableitem"><p class="itemtext">3</p></td>
-						<td class="tableitem"><p class="itemtext">22</p></td>                
-						<td class="tableitem"><p class="itemtext">$225.00</p></td>
-					</tr>
 
-					<tr class="service">
-						<td class="tableitem"><p class="itemtext">Design Development</p></td>
-						<td class="tableitem"><p class="itemtext">5</p></td>
-						<td class="tableitem"><p class="itemtext">4</p></td>                
-						<td class="tableitem"><p class="itemtext">$375.00</p></td>
-					</tr>
 
-					<tr class="tabletitle">
-						<td></td>
-						<td></td>                
-						<td class="Rate"><h2>SubTotal</h2></td>
-						<td class="payment"><h2>$419.25</h2></td>
-					</tr>
+		<p class="BodyText" style="margin-top:0.35pt; font-size:10pt"><span style="font-family:'Times New Roman'; font-weight:normal; -aw-import:ignore">&#xa0;</span></p>
+	</div>
+	<br style="clear:both; mso-break-type:section-break" />
+	<div>
+		<p class="BodyText" style="font-size:33pt"><span style="font-family:'Times New Roman'; font-weight:normal; -aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:33pt"><span style="font-family:'Times New Roman'; font-weight:normal; -aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="margin-top:0.1pt; font-size:34.5pt"><span style="font-family:'Times New Roman'; font-weight:normal; -aw-import:ignore">&#xa0;</span></p>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<p style="margin-left:78.65pt; font-size:23pt">
+							<span style="height:0pt; display:block; position:absolute; z-index:2">
+								<img src="images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.003.png" hidden width="390" height="178" alt="" style="margin-top:-148.59pt; margin-left:-72.83pt; -aw-left-pos:65.82pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-148.59pt; -aw-wrap-type:none; position:absolute" />
+							</span>
+							<a name="Página_1"></a>
+							<a href="mailto:litolens@gmail.com" style="text-decoration:none">
+								<span style="font-family:Arial; font-weight:bold; color:#151616">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							</a>
+						</p>
+					</td>
+					<td>
+						<p style="font-size:13pt">
+							<img src="images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.004.png" width="246" hidden height="76" alt=""  style="margin-top:-108.59pt; margin-left:135pt; -aw-left-pos:65.82pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-148.59pt; -aw-wrap-type:none; position:absolute"/>
+							<!-- <br /> -->
+						</p>
+						<p class="BodyText" hidden   style="margin-top:-40.59pt; margin-left:120pt; -aw-left-pos:65.82pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-148.59pt; -aw-wrap-type:none; position:absolute">
+							<span style="color:#151616">Carrera</span>
+							<span style="letter-spacing:0.4pt; color:#151616"> </span>
+							<span style="color:#151616">44</span>
+							<span style="letter-spacing:0.4pt; color:#151616"> </span>
+							<span style="color:#151616">No.</span>
+							<span style="letter-spacing:0.4pt; color:#151616"> </span>
+							<span style="color:#151616">46-40</span>
+							<span style="letter-spacing:0.05pt; color:#151616"> </span><br>
+							<span style="color:#151616">Tels.:</span>
+							<span style="letter-spacing:0.25pt; color:#151616"> </span>
+							<span style="color:#151616">239</span>
+							<span style="letter-spacing:0.25pt; color:#151616"> </span>
+							<span style="color:#151616">4573</span>
+							<span style="letter-spacing:0.3pt; color:#151616"> </span>
+							<span style="color:#151616">-</span>
+							<span style="letter-spacing:0.25pt; color:#151616"> </span>
+							<span style="color:#151616">239</span>
+							<span style="letter-spacing:0.3pt; color:#151616"> </span>
+							<span style="color:#151616">3582</span>
+						</p>
+					</td>
 
-					<tr class="tabletitle">
-						<td></td>
-						<td></td>                
-						<td class="Rate"><h2>IVA</h2></td>
-						<td class="payment"><h2>$419.25</h2></td>
-					</tr>
-          
-					<tr class="tabletitle">
-						<td></td>
-						<td></td>                
-						<td class="Rate"><h2>Descuento</h2></td>
-						<td class="payment"><h2>$419.25</h2></td>
-					</tr>              
+					<td>
+						<p class="BodyText" style="margin-top:-135.59pt; margin-left:315pt; -aw-left-pos:65.82pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-148.59pt; -aw-wrap-type:none; position:absolute">
+							<br style="clear:both; mso-column-break-before:always" />
+							<span style="color:#151616;border:1px black solid; padding:5px;">{{number_invoice}}</span>
+						</p>
+					</td>
 
-					<tr class="tabletitle">
-						<td></td>
-						<td></td>                
-						<td class="Rate"><h2>Total</h2></td>
-						<td class="payment"><h2>$3,644.25</h2></td>
-					</tr>
+				</tr>
 
-				</table>
-			</div><!--End Table-->
 
-			<div id="legalcopy">
-				<p class="legal"><strong>¡Gracias por tu compra!</strong>
-				  <!-- Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.  -->
-				</p>
-			</div>
-  </div><!--End Invoice-->
-  <script>
-  	window.print()
-  </script>
+
+
+
+		<!-- <p class="Title"><br style="clear:both; mso-column-break-before:always" /><span style="color:#151616">FACTURA</span><span style="letter-spacing:0.7pt; color:#151616"> </span><span style="color:#151616">DE</span><span style="letter-spacing:1.8pt; color:#151616"> </span><span style="color:#151616">VENTA</span></p> -->
+		</table>
+	</div><br style="clear:both; mso-break-type:section-break" />
+
+
+	<div>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p class="BodyText" style="margin-top:0.25pt; font-size:11pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+
+
+		<!-- <p style="margin-top:-100pt; margin-left:80.5pt; font-size:20.5pt; border: 1px red solid;width:70%;">
+			<span style="height:0pt; margin-top:-7.3pt; display:block; position:absolute; z-index:1">
+			</span>
+			<span style="color:#151616" hidden>SEÑORES: </span>
+			<span style="width:696.87pt;margin-left: 50px; font-family:'Lucida Console'; font-size: 20px; display:inline-block; -aw-font-family:'Arial MT'; -aw-tabstop-align:left; -aw-tabstop-pos:813.4pt">{{client.name}}
+		</p> -->
+
+		<p style="margin-top:-85pt; margin-left:80.5pt; font-size:20.5pt">
+			<span style="height:0pt; margin-top:-7.3pt; display:block; position:absolute; z-index:1">
+				<img src="images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.005.png" hidden width="218" height="197" alt="" style="margin-top:-17.24pt; margin-left:703.52pt; -aw-left-pos:878.01pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-47.24pt; -aw-wrap-type:none; position:absolute" />
+			</span>
+			<span style="color:#151616" hidden>SEÑORES: </span>
+			<span style="width:696.87pt;margin-left: 65px; font-family:'Lucida Console'; font-size: 20px; display:inline-block; -aw-font-family:'Arial MT'; -aw-tabstop-align:left; -aw-tabstop-pos:813.4pt">{{client.name}}
+			</span>
+
+			<p style="font-size:12px;position: absolute;
+			    top: 17.5%;
+			    left: 750px;
+			    transform: translate(-50%, -50%);">
+			    <span style="-aw-import:ignore">{{client.address}}</span>
+			</p>
+		</p>
+
+
+
+		<p style="margin-top:30pt; margin-left:80.5pt; font-size:20.5pt">
+			<span style="height:0pt; margin-top:-7.3pt; display:block; position:absolute; z-index:1">
+				<img src="images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.005.png" hidden width="218" height="197" alt="" style="margin-top:-17.24pt; margin-left:703.52pt; -aw-left-pos:878.01pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-47.24pt; -aw-wrap-type:none; position:absolute" />
+			</span>
+			<span style="color:#151616" hidden>SEÑORES: </span>
+			<span style="width:696.87pt;margin-left: 40px; font-family:'Lucida Console'; font-size: 20px; display:inline-block; -aw-font-family:'Arial MT'; -aw-tabstop-align:left; -aw-tabstop-pos:813.4pt">{{client.document}}
+			</span>
+
+			<p style="font-size:18px;position: absolute;
+			    top: 22.5%;
+			    left: 650px;
+			    transform: translate(-50%, -50%);">
+			    <span style="-aw-import:ignore">{{client.phone}}</span>
+			</p>
+
+			<p style="font-size:15pt;position: absolute;
+			    top: 17%;
+			    left: 950px;
+			    transform: translate(-50%, -50%);">
+			    <!--<span style="-aw-import:ignore">{{date.fg}}</span>-->
+			    <span style="-aw-import:ignore">2023-08-01</span>
+			</p>
+
+			<p style="font-size:15pt;position: absolute;
+			    top: 21%;
+			    left: 950px;
+			    transform: translate(-50%, -50%);">
+			    <!--<span style="-aw-import:ignore">{{data_pf.payment_due_date}}</span>-->
+			    <span style="-aw-import:ignore">2023-08-01</span>
+			</p>
+		</p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+	</div>
+
+	<br style="clear:both; mso-break-type:section-break" />
+	<div>
+		<p style="margin-top:14.45pt; margin-left:13.5pt; font-size:20.5pt">
+			<span hidden style="color:#151616">NIT:</span>
+			<span hidden style="width:425.18pt; font-family:'Lucida Console'; text-decoration:underline; display:inline-block; -aw-font-family:'Arial MT'; -aw-tabstop-align:left; -aw-tabstop-pos:477.4pt"></span>
+			<span hidden style="color:#151616">TEL:</span>
+			<span hidden style="letter-spacing:-0.2pt; color:#151616"> </span>
+			<span hidden style="text-decoration:underline; color:#151616; -aw-import:spaces">&#xa0;</span>
+			<span hidden style="width:281.32pt; font-family:'Lucida Console'; text-decoration:underline; display:inline-block; -aw-font-family:'Arial MT'; -aw-tabstop-align:left; -aw-tabstop-pos:813.4pt"></span>
+		</p>
+		<p class="BodyText" style="margin-top:25.15pt; margin-left:23.45pt">
+			<span style="height:0pt; margin-top:-25.15pt; display:block; position:absolute; z-index:-1">
+				<img src="{% static 'images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.006.png' %}" hidden  width="1290" height="1195" alt="" style="margin-top:15.94pt; margin-left:-10.46pt; -aw-left-pos:73.04pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:15.99pt; -aw-wrap-type:none; position:absolute" />
+			</span>
+			<span style="color:#ffffff"></span>
+			<span style="width:219.41pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:349.9pt">&#xa0;</span>
+			<span style="letter-spacing:-0.05pt; color:#ffffff"></span>
+			<span style="width:200.33pt; letter-spacing:-0.05pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:671.75pt">&#xa0;</span>
+			<span style="vertical-align:-1.5pt; color:#ffffff"></span>
+			<span style="letter-spacing:0.7pt; vertical-align:-1.5pt; color:#ffffff"> </span>
+			<span style="vertical-align:-1.5pt; color:#ffffff"></span>
+			<span style="width:30.33pt; letter-spacing:-0.05pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:671.75pt">&#xa0;</span>
+			<span style="vertical-align:-2.5pt color:#ffffff"><span style="color:white;"></span></span>
+		</p>
+		<p class="BodyText">
+			<br style="clear:both; mso-column-break-before:always" />
+		</p>
+		<p class="BodyText" style="margin-top:0.55pt; font-size:27pt">
+			<span style="-aw-import:ignore">&#xa0;</span>
+		</p>
+		<p class="BodyText" style="margin-left:13.5pt">
+			<span style="color:#ffffff"></span>
+			<span style="letter-spacing:0.25pt; color:#ffffff"> </span>
+			<span style="color:#ffffff"></span>
+		</p>
+	</div>
+
+
+	<!-- ROWS -->
+	<style>
+			.quanty{
+				position: absolute;
+			    top: 50%;
+			    left: 2.5%;
+			    transform: translate(-50%, -50%);
+			}
+
+			.product{
+				position: absolute;
+			    top: 50%;
+			    left: 8%;
+			    transform: translate(-50%, -50%);
+			}
+
+			.val{
+				position: absolute;
+			    top: 50%;
+			    left: 38%;
+			    transform: translate(-50%, -50%);
+			}
+
+			.total{
+				position: absolute;
+			    top: 50%;
+			    left: 47%;
+			    transform: translate(-50%, -50%);
+			}
+	</style>
+	<div style="margin-top: -70pt;">
+	    <div id="pather"></div>
+
+
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+		<p class="BodyText" style="font-size:20pt"><span style="-aw-import:ignore">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;</span></p>
+
+
+		<p style="font-size:20pt;position: absolute;
+		    top:69%;
+		    left: 950px;
+		    transform: translate(-50%, -50%);"><span style="-aw-import:ignore" class="total_order">{{totals}}</span>
+		</p>
+
+		<!--<p style="font-size:17pt;position: absolute;-->
+		<!--    top:50%;-->
+		<!--    left: 355px;-->
+		<!--    transform: translate(-50%, -50%);"><span style="-aw-import:ignore" class="total_order">ABONO UN VALOR</span>-->
+		<!--</p>-->
+
+		<p style="margin-top:8.65pt; margin-left:21.65pt; font-size:24.5pt">
+			<span style="height:0pt; margin-top:-250.65pt; display:block; position:absolute; z-index:10">
+				<img src="{% static 'images/Aspose.Words.04e0af60-50bb-4f27-ab6f-75ed7aeacd84.010.png' %}" hidden  width="20" height="455" alt="" style="margin-top:-18.06pt; margin-left:958.78pt; -aw-left-pos:1040.43pt; -aw-rel-hpos:page; -aw-rel-vpos:paragraph; -aw-top-pos:-118.06pt; -aw-wrap-type:none; position:absolute" />
+			</span>
+			<span style="color:#151616" hidden>SON:</span>
+		</p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="font-size:10pt"><span style="-aw-import:ignore">&#xa0;</span></p>
+		<p style="margin-top:0.1pt; font-size:13.5pt">
+			<span style="-aw-import:ignore">&#xa0;</span>
+		</p>
+		<p hidden style="margin-top:15.95pt; margin-left:83.75pt; line-height:18.25pt">
+			<span style="font-size:16pt; color:#151616">Por</span>
+			<span style="font-size:16pt; letter-spacing:0.7pt; color:#151616"> </span>
+			<span style="font-size:16pt; color:#151616">el</span>
+			<span style="font-size:16pt; letter-spacing:0.75pt; color:#151616"> </span>
+			<span style="font-size:16pt; color:#151616">vendedor</span>
+			<span style="font-size:16pt; letter-spacing:0.75pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">(Nombre</span>
+			<span style="font-size:14.5pt; letter-spacing:0.6pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">y</span>
+			<span style="font-size:14.5pt; letter-spacing:0.6pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">C.C.</span>
+			<span style="font-size:14.5pt; letter-spacing:0.55pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">-</span>
+			<span style="font-size:14.5pt; letter-spacing:0.6pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">Firma,</span>
+			<span style="font-size:14.5pt; letter-spacing:0.6pt; color:#151616"> </span>
+			<span style="font-size:14.5pt; color:#151616">Sello)</span>
+
+
+			<span style="width:272.97pt; font-size:14.5pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:626.9pt">&#xa0;</span>
+			<span style="font-size:16pt; color:#151616">Por</span>
+			<span style="font-size:16pt; letter-spacing:0.85pt; color:#151616"> </span>
+			<span style="font-size:16pt; color:#151616">el</span>
+			<span style="font-size:16pt; letter-spacing:0.85pt; color:#151616"> </span>
+			<span style="font-size:16pt; color:#151616">comprador</span><span style="font-size:16pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">(Nombre</span><span style="font-size:14.5pt; letter-spacing:0.7pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">y</span><span style="font-size:14.5pt; letter-spacing:0.65pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">C.C.</span><span style="font-size:14.5pt; letter-spacing:0.7pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">-</span><span style="font-size:14.5pt; letter-spacing:0.65pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">Firma,</span><span style="font-size:14.5pt; letter-spacing:0.7pt; color:#151616"> </span><span style="font-size:14.5pt; color:#151616">Sello)</span></p>
+		<p hidden style="margin-left:636.8pt; line-height:14.8pt">
+		    <span style="font-size:13pt; color:#151616">Constancia</span>
+		    <span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">de</span><span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">aceptación</span><span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">y</span><span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">recepción</span><span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">de</span><span style="font-size:13pt; letter-spacing:0.8pt; color:#151616"> </span><span style="font-size:13pt; color:#151616">Mercancía</span></p>
+		<p hidden style="margin-right:214.35pt; margin-left:130.35pt; margin-top: 3px;text-align:center; font-size:14.5pt">
+
+			<span style="font-family:Arial; font-weight:bold; color:#151616">Cuenta</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.65pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">de</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.1pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">Ahorros</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.65pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">Bancolombia</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.7pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">No.</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.65pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">01505527565</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.7pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">a</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.65pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">nombre</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.7pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">de</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.05pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">ADRIANA</span>
+			<span style="font-family:Arial; font-weight:bold; letter-spacing:0.1pt; color:#151616"> </span>
+			<span style="font-family:Arial; font-weight:bold; color:#151616">PÉREZ</span>
+
+		</p>
+	</div>
+
+	<script>
+	    const formatoMexico = (number) => {
+          const exp = /(\d)(?=(\d{3})+(?!\d))/g;
+          const rep = '$1,';
+          return number.toString().replace(exp,rep);
+        }
+
+        $(".total_order").text(formatoMexico('{{totals}}'))
+	    $.ajax({
+	        success:function(data){
+	            obj = JSON.parse(data)
+	            console.log(obj)
+	            $("#pather").empty()
+	            index = 28.5
+	            for(var i = 0; i < obj.length; i++){
+	                price = formatoMexico(obj[i]['price'])
+	                subtotal = formatoMexico(obj[i]['subtotal'])
+	                quanty = formatoMexico(obj[i]['quanty'])
+	                console.log(price)
+	                $("#pather").append(`
+	                    <p style="font-size:12pt;position: absolute;
+            			    top: ${index}%;
+            			    left: 109px;
+            			    transform: translate(-50%, -50%);">
+            			    <span style="-aw-import:ignore">${quanty}</span>
+            			</p>
+            			<p style="font-size:12pt;position: absolute;
+            			    top: ${index}%;
+            			    left: 395px;
+            			    transform: translate(-50%, -50%);">
+            				<span style="-aw-import:ignore">${obj[i]['description']}</span>
+            			</p>
+            			<p style="font-size:12pt;position: absolute;
+            			    top: ${index}%;
+            			    left: 775px;
+            			    transform: translate(-50%, -50%);"><span style="-aw-import:ignore">${price}</span>
+            			</p>
+            			<p style="font-size:12pt;position: absolute;
+            			    top: ${index}%;
+            			    left: 950px;
+            			    transform: translate(-50%, -50%);"><span style="-aw-import:ignore">${subtotal}</span>
+            			</p>
+	                `)
+	                index += 2
+	            }
+	            window.print()
+	        }
+	    })
+
+	</script>
 </body>
 </html>

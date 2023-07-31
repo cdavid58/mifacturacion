@@ -46,10 +46,10 @@
     <!-- color CSS -->
     <link href="{% static 'css/colors/megna.css' %}" id="theme" rel="stylesheet">
     <style>
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-          -webkit-appearance: none; 
-          margin: 0; 
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
         input[type=number] { -moz-appearance:textfield; }
     </style>
@@ -133,7 +133,7 @@
     <!-- end - This is for export functionality only -->
     <script>
     $(document).ready(function() {
-        $('#myTable').DataTable({            
+        $('#myTable').DataTable({
             "columnDefs": [{
                     "visible": false,
                     "targets": 2
@@ -317,7 +317,7 @@
                         t.appendChild(document.createTextNode((new Date()).toLocaleString() + ': Sound played'));
                         document.querySelector('.output').appendChild(t);
                         playsound(audioBuffer);
-                    }, 100000000000000000);
+                    }, 10000);
                 };
 
                 audioCtx.decodeAudioData(xhr.response).then(playsound);

@@ -4,7 +4,7 @@
 <div class="container-fluid" style="padding-top: 15px;">
     <div class="row">
         <div class="col-lg-6 col-sm-12 col-xs-12">
-            
+
             <!-- ROW ONE -->
             <div class="row">
                 <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -48,7 +48,7 @@
 
 
             <!-- ROW TWO -->
-            
+
 
             <!-- END ROWS -->
         </div>
@@ -64,15 +64,16 @@
                       <div class="overlaybg" style="height: 100%; width: 100%;">
                         <img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg"/></div>
                     </div>
-                </div></code></pre> </div>
+                </div></code></pre>
+            </div>
             <div class="news-slide m-b-15">
                 <div class="vcarousel slide">
                     <!-- Carousel items -->
                     <div class="carousel-inner">
+                        <!--<div class="active item">-->
+                        <!--    <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://www.siigo.com/wp-content/uploads/2019/09/Factura-electronica-plazos-y-obligados-facebook.jpg" /></div>-->
+                        <!--</div>-->
                         <div class="active item">
-                            <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://www.siigo.com/wp-content/uploads/2019/09/Factura-electronica-plazos-y-obligados-facebook.jpg" /></div>
-                        </div>
-                        <div class="item">
                             <div class="overlaybg" style="height: 100%; width: 100%;"><img src="https://softwarepos.co/images/page/og/og-poscolombia.jpg" /></div>
                         </div>
                         <div class="item">
@@ -134,22 +135,22 @@
 
 <div class="col-lg-4 col-xs-12" hidden>
     <div class="white-box">
-        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expires"> 
+        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expires">
     </div>
 </div>
 <div class="col-lg-4 col-xs-12" hidden>
     <div class="white-box">
-        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expired"> 
+        <img src="" alt="alert" class="img-responsive model_img" id="resolution_expired">
     </div>
 </div>
 <div class="col-lg-4 col-xs-12" hidden>
     <div class="white-box">
-        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expires"> 
+        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expires">
     </div>
 </div>
 <div class="col-lg-4 col-xs-12" hidden>
     <div class="white-box">
-        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expired"> 
+        <img src="" alt="alert" class="img-responsive model_img" id="certificate_expired">
     </div>
 </div>
 {% endblock %}
@@ -192,24 +193,24 @@
         const closedApp = getCookie("closedApp");
         if (closedApp === null) {
             // setCookie("closedApp", "true", 1);
-            if("{{error_resolutions}}" == "True"){
-                $('#resolution_expires').click();
-                time_sleep()
-            }
-            if("{{error_resolutions}}" === "expired"){
-                $('#resolution_expired').click();
-                time_sleep()
-            }
+            // if("{{error_resolutions}}" == "True"){
+            //     $('#resolution_expires').click();
+            //     time_sleep()
+            // }
+            // if("{{error_resolutions}}" === "expired"){
+            //     $('#resolution_expired').click();
+            //     time_sleep()
+            // }
 
-            if("{{error_certificate}}" == "True"){
-                $('#certificate_expires').click();
-                time_sleep()
-            }
-            if("{{error_certificate}}" == "expired"){
-                $('#certificate_expired').click();
-                time_sleep()
-            }
-        }       
+            // if("{{error_certificate}}" == "True"){
+            //     $('#certificate_expires').click();
+            //     time_sleep()
+            // }
+            // if("{{error_certificate}}" == "expired"){
+            //     $('#certificate_expired').click();
+            //     time_sleep()
+            // }
+        }
     })
 </script>
 {% endblock %}

@@ -8,9 +8,9 @@
                 <small>Margen de Utilidad: <span id="utility">0%</span></small>&nbsp;&nbsp;&nbsp;
                 <small>Ganancia X Producto: <span id="win">$0</span></small>&nbsp;&nbsp;&nbsp;
                 <small>Ganancia Total: <span id="win_totals">$0</span></small>
-            </h4> 
+            </h4>
         </div>
-        <div class="col-lg-4 col-md-8 col-12"> 
+        <div class="col-lg-4 col-md-8 col-12">
             <a href="{% url 'List_Inventory' %}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline waves-effect waves-light">Listado de Inventario</a>
             <!-- button href="{% url 'List_Inventory' %}" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Agregar Categoria</button> -->
         </div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        
+
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light m-r-10 save">Agregar</button>
                     <button type="reset" class="btn btn-inverse waves-effect waves-light re">Limpiar Campos</button>
@@ -156,7 +156,7 @@
 </div>
 <div class="col-lg-4 col-xs-12" hidden>
     <div class="white-box">
-        <img src="" alt="alert" class="img-responsive model_img" id="add_success"> 
+        <img src="" alt="alert" class="img-responsive model_img" id="add_success">
     </div>
 </div>
 {% endblock %}
@@ -274,7 +274,7 @@
             if($("#quanty").val() != ""){
                 value = $("#quanty").val()
             }
-            CaltulateCost(value)  
+            CaltulateCost(value)
         })
     })
 </script>

@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th style="text-align: center;">N° de Factura</th>
+                                <th style="text-align: center;">Catidad</th>
                                 <th style="text-align: center;">Base</th>
                                 <th style="text-align: center;">IVA</th>
                                 <th style="text-align: center;">Total</th>
@@ -28,17 +29,18 @@
                                 <th style="text-align: center;">Estatus</th>
                                 <th style="text-align: center;">Proveedor</th>
                                 <th style="text-align: center;">Accion</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
                         	{% for i in data %}
 	                            <tr>
 	                                <td>{{i.number_invoice}}</td>
+	                                <td style="text-align: right;">{{i.quanty}}</td>
 	                                <td style="text-align: right;">{{i.base}}</td>
 	                                <td style="text-align: right;">{{i.val_iva}}</td>
 	                                <td style="text-align: right;">{{i.total}}</td>
-	                                <td style="text-align: center;">{{i.date}}</td>                                    
+	                                <td style="text-align: center;">{{i.date}}</td>
                                     <td style="text-align: center;">
                                         {% if i.used %}
                                             SI
@@ -89,7 +91,7 @@
             success:function(data){
                 $("#p"+id).text("Cancelado")
                 $("#"+id).prop('disabled', true)
-                
+
                 total -= data
                 $("#total").text(formatNumber(total))
 

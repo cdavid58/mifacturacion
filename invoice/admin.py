@@ -1,7 +1,14 @@
 from django.contrib import admin
 from .models import *
 
-admin.site.register(Invoice)
+
+class InvoiceAdmin(admin.ModelAdmin):
+    list_filter = ('company',)
+    list_display = ['number','description','price','quanty']
+    search_fields = ['number','date','description']
+
+
+admin.site.register(Invoice,InvoiceAdmin)
 admin.site.register(Payment_Form_Invoice)
 admin.site.register(Consecutive_POS)
 admin.site.register(Consecutive_Elec)

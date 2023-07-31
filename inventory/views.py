@@ -20,10 +20,13 @@ def Add_Category(request):
 		).save()
 		return HttpResponse("")
 
+
+
+
 def Add_Inventory(request):
 	global c
 	category = Category.objects.all()
-	
+
 	if request.is_ajax():
 		data = request.GET
 		print(data)
@@ -206,7 +209,7 @@ def Shopping(request):
 	return render(request,'inventory/shopping.html',{'supplier':_sp})
 
 def AddSupplier(request):
-	
+
 	if request.is_ajax():
 		data = request.GET
 		Supplier(
@@ -247,18 +250,37 @@ def Save_Shopping(request):
 					initial_inventory = t.codificar(str(j['Cantidad']))
 				).save()
 
-				if int(t.decodificar(str(inv.quanty))) <= 0:
-					si = Shopping_Inventory.objects.filter(code = inv, used = False, company = Company.objects.get(documentIdentification = t.codificar(str(9918401)))).first()
-					inv.quanty = si.quanty
-					inv.tax = trans(j['Iva'])
-					inv.price = trans(totals)
-					inv.ico = si.ico
-					inv.discount = trans(j['Desc.'])
-					inv.save()
-					si.used = True
-					si.save()
-
-
-				del request.session['invoice_shopping']
-				del request.session['supplier']
+				# if int(t.decodificar(str(inv.quanty))) <= 0:
+				# 	si = Shopping_Inventory.objects.filter(code = inv, used = False, company = Company.objects.get(documentIdentification = t.codificar(str(9918401)))).first()
+				# 	inv.quanty = si.quanty
+				# 	inv.tax = trans(j['Iva'])
+				# 	inv.price = trans(totals)
+				# 	inv.ico = si.ico
+				# 	inv.discount = trans(j['Desc.'])
+				# 	inv.save()
+				# 	si.used = True
+				# 	si.save()
+				si = Shopping_Inventory.objects.filter(code = inv, used = False).first()
+				n = int(t.decodificar(str(inv.quanty)))
+				q = int(j['Cantidad'])
+				inv.quanty = t.codificar(str(n + q))
+				inv.tax = trans(j['Iva'])
+				inv.price = trans(totals)
+				inv.ico = si.ico
+				inv.discount = trans(j['Desc.'])
+				inv.save()
+				si.used = True
+				si.save()
+				Record(
+				    code = inv.code,
+				    quanty = t.codificar(str(data['Cantidad'])),
+				    price = t.codificar(str(data['Costo'])),
+				    tax = t.codificar(str(data['Iva Val'])),
+				    date = date.today(),
+				    time = "",
+				    empleoyee = Empleoyee.objects.get(pk=request.session['empleoyee_pk']),
+				    company = c(request)
+				).save()
+		del request.session['invoice_shopping']
+		del request.session['supplier']
 		return HttpResponse("")

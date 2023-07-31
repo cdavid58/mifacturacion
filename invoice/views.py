@@ -35,10 +35,10 @@ def Invoice_Data(request):
 	_invoice = Invoice.objects.filter(company = company).distinct()
 	try:
 		import sqlite3
-		con = sqlite3.connect('db.sqlite3')
+		con = sqlite3.connect('/home/sistemadministrativo/mifacturacion/db.sqlite3')
 		c = con.cursor()
 		c.execute("""
-				SELECT DISTINCT i.number,c.name,i.prefix,i.state,i.date from invoice_Invoice as i 
+				SELECT DISTINCT i.number,c.name,i.prefix,i.state,i.date from invoice_Invoice as i
 				inner join client_Client as c on c.id = i.client_id
 				where i.company_id = """+str(company.pk)+""" order by i.number desc limit 100
 		""")
@@ -57,7 +57,7 @@ def Invoice_Data(request):
 		return _data
 	except Exception as e:
 		return []
-	
+
 
 def List_Invoice(request):
 	start = time.time()
@@ -114,7 +114,7 @@ def GetProducts(request):
 					consult_shopping.save()
 			except Exception as e:
 				pass
-			
+
 			products = [
 				{
 					'pk':count,
@@ -130,7 +130,7 @@ def GetProducts(request):
 					'ico':t.decodificar(str(_id.ico))
 				}
 			]
-			
+
 
 			products = json.dumps(products)
 			count += 1
@@ -203,7 +203,7 @@ def Save_Invoice_FE(request):
 				n += 1
 				request.session['client']
 			n = consecutive.number + 1
-			consecutive.number = n 
+			consecutive.number = n
 			consecutive.save()
 			success = True
 		return HttpResponse(success)
@@ -266,7 +266,7 @@ def NoteCreditProduct(request):
 			u.start()
 
 		return HttpResponse(request.GET.get("pk"))
-	
+
 
 def NoteCredit_From_JS(request):
 	if request.is_ajax():
@@ -304,7 +304,7 @@ import os,constants
 def Create_PDF_Invoice(request,pk):
 	company = Company.objects.get(documentIdentification= t.codificar(str(request.session['nit_company'])))
 	invoice = Invoice.objects.filter(number = t.codificar(str(pk)), company = company )
-	env = Environment(loader=FileSystemLoader("template"))
+	env = Environment(loader=FileSystemLoader("/home/sistemadministrativo/mifacturacion/template"))
 	template = env.get_template("credit_note_sample.html")
 	name_doc = "FES-"+str(company.prefix)+str(pk)
 
@@ -330,7 +330,7 @@ def Create_PDF_Invoice(request,pk):
 		tax += i.Tax_Value()
 	subtotal_ = Thousands_Separator(round(subtotal,2))
 
-	
+
 	_payment_form = Payment_Form_Invoice.objects.get(invoice = invoice.last())
 
 	data = {
@@ -358,7 +358,7 @@ def Create_PDF_Invoice(request,pk):
 		'consecutive':t.decodificar(str(invoice.last().number)),
 		'logo':'https://c2.staticflickr.com/4/3123/2710432413_9f8aedce5f.jpg'
 	}
-	
+
 	tax = {}
 	tax_0 = 0
 	tax_5 = 0
@@ -381,18 +381,18 @@ def Create_PDF_Invoice(request,pk):
 		data['tax_0'] = Thousands_Separator(tax_0)
 
 	html = template.render(data)
-	file = open("template/pdfs/"+name_doc+".html",'w')
+	file = open("/home/sistemadministrativo/mifacturacion/template/pdfs/"+name_doc+".html",'w')
 	file.write(html)
 	file.close()
-	path = "media/company/"+request.session['nit_company']
+	path = "/home/sistemadministrativo/mifacturacion/media/company/"+request.session['nit_company']
 	GeneratePDF(name_doc,path)
-	os.remove('template/pdfs/'+name_doc+'.html')
+	os.remove('/home/sistemadministrativo/mifacturacion/template/pdfs/'+name_doc+'.html')
 
 
 def GetPDF(request,pk):
-	company = Company.objects.get(documentIdentification= t.codificar(str(request.session['nit_company'])))	
+	company = Company.objects.get(documentIdentification= t.codificar(str(request.session['nit_company'])))
 	name_doc = "FES-"+str(company.prefix)+str(pk)
-	path_dir = "media/company/"+request.session['nit_company']+'/'+name_doc+'.pdf'
+	path_dir = "/home/sistemadministrativo/mifacturacion/media/company/"+request.session['nit_company']+'/'+name_doc+'.pdf'
 	if not os.path.exists(path_dir):
 		Create_PDF_Invoice(request,pk)
 	return FileResponse(open(path_dir,'rb'),content_type='application/pdf')
@@ -434,7 +434,7 @@ def Send_Email_PDF(request,pk):
 	html = """
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml">
-		 
+
 		<head>
 		  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		  <title>Factura electronica</title>
@@ -475,11 +475,11 @@ def Send_Email_PDF(request,pk):
 		      <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
 		        <tr>
 		          <td>
-		    <![endif]-->     
+		    <![endif]-->
 		    <table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0">
 		      <tr>
 		        <td style=" background-image: linear-gradient(to left top, #0db9f8, #0790be, #0c6988, #0f4456, #0c222a);" class="header">
-		          <table width="70" align="left" border="0" cellpadding="0" cellspacing="0">  
+		          <table width="70" align="left" border="0" cellpadding="0" cellspacing="0">
 		            <tr>
 		              <td height="70" style="padding: 0 20px 20px 0;">
 		                <img class="fix" src="https://scontent.feoh1-1.fna.fbcdn.net/v/t39.30808-6/236831317_373363691048746_6124884787829342845_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeHC2pd9PxQIaMrlI6hGR7_KM4Mr_Q2yPQkzgyv9DbI9CTyKT7YfoHSHHmKHZ07ufKLotsaDLkQ49Do25yRYbBsP&_nc_ohc=s0gnbPs5NWcAX-vebaw&_nc_ht=scontent.feoh1-1.fna&oh=00_AT9FfGCvn1UA0mqFqunFbxN3WqHc0WaGX5k2U8ysTk3lxw&oe=62509A4E" width="70" height="70" border="0" alt="" />
@@ -491,7 +491,7 @@ def Send_Email_PDF(request,pk):
 		              <tr>
 		                <td>
 		          <![endif]-->
-		          <table class="col425" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 425px;">  
+		          <table class="col425" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 425px;">
 		            <tr>
 		              <td height="70">
 		                <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -538,7 +538,7 @@ def Send_Email_PDF(request,pk):
 		      </tr>
 		      <tr>
 		        <td class="innerpadding borderbottom">
-		          <!-- <table width="115" align="left" border="0" cellpadding="0" cellspacing="0">  
+		          <!-- <table width="115" align="left" border="0" cellpadding="0" cellspacing="0">
 		            <tr>
 		              <td height="115" style="padding: 0 20px 20px 0;">
 		                <img class="fix" src="http://theriosoft.com/static/vendors/itemsHome/facturaPdf.png" width="115" height="115" border="0" alt="" />
@@ -550,21 +550,21 @@ def Send_Email_PDF(request,pk):
 		              <tr>
 		                <td>
 		          <![endif]-->
-		          <table class="col380" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 380px;">  
+		          <table class="col380" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 380px;">
 		            <tr>
 		              <td>
 		                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-		               
+
 		                  <tr>
 		                    <td style="padding: 20px 0 0 0;">
 		                      <table class="buttonwrapper" style="background-image: linear-gradient(to left bottom, #0db9f8, #0790be, #0c6988, #0f4456, #0c222a);" border="0" cellspacing="0" cellpadding="0">
 		                        <tr>
 		                          <td class="button" height="45">
-		                            <a href="http://localhost:8000/invoice/acceptance/$(token)/$(pk_company)/$(number_invoice)" target="_blank">Aceptar</a>
+		                            <a href="https://sistemadministrativo.pythonanywhere.com/invoice/acceptance/$(token)/$(pk_company)/$(number_invoice)" target="_blank">Aceptar</a>
 		                          </td>
 		                          <td>&nbsp;&nbsp;&nbsp;</td>
 		                          <td class="button" height="45">
-		                            <a href="http://localhost:8000/invoice/rejection/$(token)/$(pk_company)/$(number_invoice)" target="_blank">Rechazar</a>
+		                            <a href="https://sistemadministrativo.pythonanywhere.com/invoice/rejection/$(token)/$(pk_company)/$(number_invoice)" target="_blank">Rechazar</a>
 		                          </td>
 		                        </tr>
 		                        </tr>
@@ -582,8 +582,8 @@ def Send_Email_PDF(request,pk):
 		          <![endif]-->
 		        </td>
 		      </tr>
-		      
-		     
+
+
 		    </table>
 		    <!--[if (gte mso 9)|(IE)]>
 		          </td>
@@ -605,7 +605,7 @@ def Send_Email_PDF(request,pk):
 	html = html.replace("$(pk_company)",str(company.pk))
 
 	pdf = str("FES-"+str(company.prefix)+str(pk)+".pdf")
-	path = "media/company/"+t.decodificar(str(company.documentIdentification))+"/FES-"+str(company.prefix)+str(pk)+".pdf"
+	path = "/home/sistemadministrativo/mifacturacion/media/company/"+t.decodificar(str(company.documentIdentification))+"/FES-"+str(company.prefix)+str(pk)+".pdf"
 	ruta_adjunto = path
 	nombre_adjunto = pdf
 	mensaje = MIMEMultipart()
@@ -654,8 +654,8 @@ def acceptance(request,token,company,pk):
 		date = date.today(),
 		time = datetime.now().strftime('%H:%M')
 	).save()
-	sa = gTTS("El cliente "+t.decodificar(str(client.client.name))+" aceptó la Factura electrónica número "+t.decodificar(str(client.number)),lang='es',tld='com.mx')
-	path_dir = "./static/company/"+str(request.session['nit_company'])
+	sa = gTTS("El cliente "+t.decodificar(str(client.client.name))+" aceptó la Factura electrónica número "+t.decodificar(str(client.number)),lang='es')
+	path_dir = "/home/sistemadministrativo/mifacturacion/static/company/2"
 	if not os.path.exists(path_dir):
 		print("No existo ACEPT")
 		os.makedirs(path_dir)
@@ -665,7 +665,7 @@ def acceptance(request,token,company,pk):
 
 
 def rejection(request,token,company,pk):
-	
+
 	if request.method == "POST":
 		client = Invoice.objects.filter(number=t.codificar(str(pk))).last()
 		Notification_Acceptance(
@@ -676,8 +676,8 @@ def rejection(request,token,company,pk):
 			date = date.today(),
 			time = datetime.now().strftime('%H:%M')
 		).save()
-		sa = gTTS("El cliente "+t.decodificar(str(client.client.name))+" rechazó la Factura electrónica número "+t.decodificar(str(client.number)),lang='es',tld='com.mx')
-		path_dir = "./static/company/"+str(request.session['nit_company'])
+		sa = gTTS("El cliente "+t.decodificar(str(client.client.name))+" rechazó la Factura electrónica número "+t.decodificar(str(client.number)),lang='es')
+		path_dir = "/home/sistemadministrativo/mifacturacion/static/company/2"
 		if not os.path.exists(path_dir):
 			print("No existo ACEPT")
 			os.makedirs(path_dir)
